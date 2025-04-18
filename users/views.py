@@ -2,15 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from house.models import House
+from car.models import Car
 from .forms import SignUpForm, UserInfoForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 def home(request):
-    houses = House.objects.all()
-    return render(request, 'users/home.html', {'houses': houses})
+    cars = Car.objects.all()
+    return render(request, 'users/home.html', {'cars': cars})
 
 def signup(request):
     if request.method == 'POST':

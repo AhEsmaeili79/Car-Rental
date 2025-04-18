@@ -2,7 +2,7 @@
 
 {% block content %}
 <section class="container my-5 py-md-5">
-    <p class="titleWithBg">لیست هتل ها</p>
+    <p class="titleWithBg">لیست خودرو ها</p>
     
     <div class="search-filters">
         <form class="search-form" method="get">
@@ -38,7 +38,7 @@
                         <img class="w-100" src="{{ house.image.url }}" alt="{{ house.name }}">
                     </div>
                     <div class="col-sm-5 px-1">
-                        <a href="{% url 'house_detail' house.pk %}" class="font-weight-bold mb-3 d-block h5" title="{{ house.name }}">{{ house.name }}</a>
+                        <a href="{% url 'car_detail' house.pk %}" class="font-weight-bold mb-3 d-block h5" title="{{ house.name }}">{{ house.name }}</a>
                         <div class="my-2">
                             <i class="far fa-star"></i>
                             <i class="fas fa-star yellow-text"></i>
@@ -65,14 +65,14 @@
                         </div>
                         <p class="house-price">قیمت: روزی {{ house.price_per_day }} تومان</p>
                         <p class="house-city">شهر: {{ house.city }}</p>
-                        <a href="{% url 'house_detail' house.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                        <a href="{% url 'car_detail' house.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
                     </div>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <p>خانه ای با این مشخصات پیدا نشد !!! </p>
+            <p>خودرو ای با این مشخصات پیدا نشد !!! </p>
         </div>
         {% endfor %}
     </div>

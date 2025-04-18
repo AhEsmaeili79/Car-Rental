@@ -44,7 +44,7 @@
                         {% if user.role == 1 %}
                             <p>شما دسترسی مدیریت دارید.</p>
                         {% elif user.role == 2 %}
-                            <p>شما دسترسی میزبانی دارید</p>
+                            <p>شما دسترسی اجاره دهنده دارید</p>
                         {% elif user.role == 3 %}
                             <p>شما دسترسی مسافر دارید</p>
                         {% endif %}
@@ -55,7 +55,7 @@
                                 <!-- Wrap the button in a form to submit the role change request -->
                                 <form method="post">
                                     {% csrf_token %}
-                                    <button type="submit" name="request_role_change" class="btn-submit">درخواست تغییر دسترسی به میزبانی</button>
+                                    <button type="submit" name="request_role_change" class="btn-submit">درخواست تغییر دسترسی به اجاره دهنده</button>
                                 </form>
                             {% endif %}
                         {% endif %}

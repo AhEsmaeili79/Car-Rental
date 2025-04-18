@@ -190,7 +190,7 @@
                                 </div>
                             </div>
                             <div class="col-md-5 text-center">
-                                <a href="#" title="آدرس هتل">
+                                <a href="#" title="آدرس تحویل">
                                     <img class="img-thumbnail" src="{% static 'images/map.png' %}" alt="نقشه">
                                 </a>
                             </div>
@@ -202,7 +202,7 @@
                         <p class="titleWithBg">نظرات</p>
                         <div class="px-2">
                             {% if user.is_authenticated %}
-                            <form id="commentForm" method="post" action="{% url 'house_detail' pk=object.pk %}">
+                            <form id="commentForm" method="post" action="{% url 'car_detail' pk=object.pk %}">
                                 {% csrf_token %}
                                 
                                 <div class="row">
@@ -256,15 +256,7 @@
                                 </div>
                                 <div class="service">
                                     <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
-                                    <p class="m-0">تعداد اتاق: {{ object.number_of_rooms }}</p>
-                                </div>
-                                <div class="service">
-                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
-                                    <p class="m-0">مساحت: {{ object.area }} متر</p>
-                                </div>
-                                <div class="service">
-                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
-                                    <p class="m-0">تعداد پارکینگ: {{ object.number_of_parkings }}</p>
+                                    <p class="m-0"> به همراه راننده: {{ object.with_driver|yesno:"دارد,ندارد" }}</p>
                                 </div>
                             </div>
                             
@@ -278,21 +270,14 @@
                                     <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
                                     <p class="m-0">قیمت به ازای هر روز: {{ object.price_per_day }} تومان</p>
                                 </div>
-                                <div class="service">
-                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
-                                    <p class="m-0">استخر: {{ object.pool|yesno:"دارد,ندارد" }}</p>
-                                </div>
-                                <div class="service">
-                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
-                                    <p class="m-0">اجاق گاز: {{ object.oven|yesno:"دارد,ندارد" }}</p>
-                                </div>
+                                
                             </div>
                             
                             <!-- Third Column for Host and Other Features -->
                             <div class="col-sm-6 col-md-4">
                                 <div class="service">
                                     <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
-                                    <p class="m-0">میزبان: {{ object.user.username }}</p>
+                                    <p class="m-0">اجاره دهنده: {{ object.user.username }}</p>
                                 </div>
                                 <!-- Repeat services or add additional ones if required -->
                                 <div class="service">
@@ -345,20 +330,21 @@
          {% if user.is_authenticated %}
             <div class="space"></div>
             <div class="center border-form padding-form">
-                <form method="post" action="{% url 'order_house' pk=object.pk %}" autocomplete="off">
+                {% comment %} <form method="post" action="{% url 'order_car' pk=object.pk %}" autocomplete="off"> {% endcomment %}
+                <form method="post" action="#" autocomplete="off">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="id_arrive_date">تاریخ شروع: </label>
+                        <label for="id_arrive_date">تاریخ تحویل: </label>
                         <input data-jdp name="arrive_date" data-jdp-min-date="today" id="id_arrive_date" class="input_date" data-jdp-only-date required autocomplete="off"/>
                     </div>
                     <div class="form-group">
-                        <label for="id_exit_date">تاریخ تحویل:</label>
+                        <label for="id_exit_date">تاریخ بازگشت:</label>
                         <input data-jdp name="exit_date" data-jdp-min-date="today" id="id_exit_date" class="input_date" data-jdp-only-date required autocomplete="off"/>
                     </div>
-                    <div class="form-group">
+                    {% comment %} <div class="form-group">
                         <label for="id_count_of_passengers">تعداد مسافر:</label>
                         <input type="number" name="count_of_passengers" id="id_count_of_passengers" placeholder="فقط عدد" required autocomplete="off">
-                    </div>
+                    </div> {% endcomment %}
                     <button type="submit" class="btn btn-success mt-3">رزرو</button>
                 </form>
                 

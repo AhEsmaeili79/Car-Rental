@@ -5,7 +5,7 @@
 {% block content %}
 <!-- Trigger button to open the modal -->
 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
-    حذف خانه {{ object.name }}
+    حذف خودرو {{ object.name }}
 </button>
 
 <!-- Modal structure -->
@@ -13,13 +13,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">آیا از حذف خانه {{ object.name }} مطمئن هستید؟</h5>
+                <h5 class="modal-title" id="deleteModalLabel">آیا از حذف خودرو {{ object.name }} مطمئن هستید؟</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>اگر مطمئن هستید که می‌خواهید خانه را حذف کنید، دکمه حذف را فشار دهید.</p>
+                <p>اگر مطمئن هستید که می‌خواهید خودرو را حذف کنید، دکمه حذف را فشار دهید.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">لغو</button>

@@ -10,35 +10,35 @@
         <!--start owl-layout section-->
         <div class="owl-layout-wrapper">
             <div class="owl-carousel 4-col-owl">
-                {% for house in houses %}
+                {% for car in cars %}
                     <div class="suiteCard">
                         <!-- Static image path -->
-                        <img class="w-100" src="{{ house.image.url }}" alt="{{ house.name }}">
+                        <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
                         <div class="px-1 d-flex align-items-center justify-content-between my-3">
-                            <a href="#" class="font-weight-bold m-0 d-block" title="{{ house.name }}">{{ house.name }}</a>
+                            <a href="#" class="font-weight-bold m-0 d-block" title="{{ car.name }}">{{ car.name }}</a>
                             <div class="mx-1">
                                 <!-- Add stars for rating -->
-                                {% for i in house.rating %}
-                                    <i class="fas fa-star {% if i <= house.rating %}yellow-text{% endif %}"></i>
+                                {% for i in car.rating %}
+                                    <i class="fas fa-star {% if i <= car.rating %}yellow-text{% endif %}"></i>
                                 {% endfor %}
                             </div>
                         </div>
                         <div class="px-1 d-flex align-items-center justify-content-between mt-3 mb-1">
                             <div>
-                                <a href="{% url 'house_detail' house.id %}" class="blue-btn rounded-border" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                                <a href="{% url 'car_detail' car.id %}" class="blue-btn rounded-border" title="نمایش اطلاعات">نمایش اطلاعات</a>
                             </div>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div>
-                                    <div class="progress circle mx-auto" data-value="{{ house.rating }}">
+                                    <div class="progress circle mx-auto" data-value="{{ car.rating }}">
                                         <span class="progress-left">
                                             <span class="progress-bar border-warning"></span>
                                         </span>
                                         <span class="progress-right">
                                             <span class="progress-bar border-warning"
-                                                style="transform: rotate({{ house.rating|add:"90" }}deg);"></span>
+                                                style="transform: rotate({{ car.rating|add:"90" }}deg);"></span>
                                         </span>
                                         <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                                            <div class="font-weight-bold">{{ house.rating }}</div>
+                                            <div class="font-weight-bold">{{ car.rating }}</div>
                                         </div>
                                     </div>
                                 </div>

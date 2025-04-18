@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg fixed-top p-0 header-nav">
         <div class="container">
             <a class="navbar-brand p-0 m-0" href="#">
-                <img src="{% static 'images/logo.svg' %}" alt="ویلا">
+                <img src="{% static 'images/logo.png' %}" alt="خودرو">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -27,15 +27,15 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown"
                                 role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                title="سوییت ها">
+                                title="خودرو ها">
                                 {{ user.first_name }} عزیز خوش امدید
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'user_info' %}">اطلاعات کاربر</a>
-                                <a class="dropdown-item" href="{% url 'user_orders' %}">سفارشات</a>
-                                {% if user.role == 2 %}
+                                {% comment %} <a class="dropdown-item" href="{% url 'user_orders' %}">سفارشات</a> {% endcomment %}
+                                {% comment %} {% if user.role == 2 %}
                                     <a class="dropdown-item" href="{% url 'host_reservations' %}">رزرو ها</a>
-                                {% endif %}
+                                {% endif %} {% endcomment %}
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{% url 'logout' %}">خروج</a>
                             </div>
@@ -49,11 +49,11 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                                     <a class="dropdown-item" href="{% url 'house_create' %}">اضافه کردن</a>
-                                    <a class="dropdown-item" href="{% url 'host_houses' %}">خانه ها</a>
+                                    <a class="dropdown-item" href="{% url 'host_houses' %}">خودرو ها</a>
                                 </div>
                             </li>
                         {% endif %}
-                        {% if user.is_superuser %}
+                        {% comment %} {% if user.is_superuser %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown1"
                                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -64,18 +64,18 @@
                                     <a class="dropdown-item" href="{% url 'admin_panel' %}">پنل ادمین</a>
                                 </div>
                             </li>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
 
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'house_list' %}" title="ویلا ها">ویلا ها</a>
+                        <a class="nav-link" href="{% url 'car_list' %}" title="خودرو ها">خودرو ها</a>
                     </li>
-                    <li class="nav-item">
+                    {% comment %} <li class="nav-item">
                         <a class="nav-link" href="{% url 'article' %}" title="بلاگ">بلاگ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about_us' %}" title="درباره ما">درباره ما</a>
-                    </li>
+                    </li> {% endcomment %}
                 </ul>
                 {% if user.is_authenticated %}
                 {% else %}

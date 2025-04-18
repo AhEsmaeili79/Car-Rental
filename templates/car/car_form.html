@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}اضافه کردن خانه{% endblock %}
+{% block title %}اضافه کردن خودرو{% endblock %}
 
 {% block content %}
 <section class="container content content-box">
-    <h2 class="page-title">اضافه کردن خانه</h2>
+    <h2 class="page-title">اضافه کردن خودرو</h2>
     <div class="row mtop-2">
         <div class="col-md-10 col-sm-9 content-wrapper">
             <form method="post" class="user-info-form" enctype="multipart/form-data">
                 {% csrf_token %}
                 <fieldset class="form-section">
-                    <legend>اضافه کردن خانه</legend>
+                    <legend>اضافه کردن خودرو</legend>
                     <div class="form-input">
                         <label for="id_name" class="form-label">نام موضوع:</label>
                         {{ form.name }}
