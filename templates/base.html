@@ -1,0 +1,163 @@
+{% load static %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <!-- import bootstrap css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/jalalidatepicker.css' %}">
+    <!-- import light gallery css -->
+    <link rel="stylesheet" href="{% static 'css/lightgallery.min.css' %}">
+    <!-- import font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" 
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <script src="{% static 'js/jalalidatepicker.js' %}"></script>
+    <!-- import site style -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}ویلایی{% endblock %}</title>
+</head>
+
+<body>
+    <!-- Preloader Section -->
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader Section -->
+
+    <!-- Header Section -->
+    {% block header %}
+        {% include 'includes/header.html' %}
+    {% endblock %}
+
+    <!-- Main Content -->
+    <main>
+        
+        {% if messages %}
+            <div class="alerts">
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}">
+                        <ul class="alert-list">
+                            <li>{{ message }}</li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer Section -->
+    {% block footer %}
+        {% include 'includes/footer.html' %}
+    {% endblock %}
+
+    <!-- Import JS files -->
+    <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <!-- import lightgallery script -->
+    <script src="{% static 'js/picturefillmin.js' %}"></script>
+    <script src="{% static 'js/lightgallery-all.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mousewheel.min.js' %}"></script>
+    <!-- import jquery form validate script -->
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <!-- import bootstrap script -->
+    <script src="{% static 'js/popper.min.js' %}"></script>
+      <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- import site script -->
+    <script src="{% static 'js/index.js' %}"></script>
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+    
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+    
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("slide");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex - 1].style.display = "block";
+        }
+        function toArabicNumerals(input) {
+            const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return input.toString().replace(/\d/g, (digit) => arabicNumerals[parseInt(digit, 10)]);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('*:not(script):not(style)');
+            elements.forEach((element) => {
+                if (element.children.length === 0 && element.textContent.match(/\d/)) {
+                    element.textContent = toArabicNumerals(element.textContent);
+                }
+            });
+        });
+        
+    </script>
+    <script>
+        jalaliDatepicker.startWatch({
+          minDate: "attr",
+          maxDate: "attr",
+          minTime: "attr",
+          maxTime: "attr",
+          time: true,
+          date: true,
+          hasSecond: false,
+          hideAfterChange: false,
+          autoHide: true,
+          showTodayBtn: true,
+          showEmptyBtn: true,
+          topSpace: 10,
+          bottomSpace: 30,
+          overflowSpace: -10,
+          dayRendering(opt, input) {
+            return {
+              isHollyDay: opt.day == 1,
+            };
+          },
+        });
+    
+        document.getElementById("aaa").addEventListener("jdp:change", function (e) {
+          console.log(e);
+        });
+      </script>
+    <script>
+        // Function to validate the date input and clear it if invalid
+        function validateDateInput(inputElement) {
+            const value = inputElement.value;
+            const dateRegex = /^[\d]{4}-[\d]{2}-[\d]{2}$/;
+            
+            if (!dateRegex.test(value)) {
+                inputElement.value = '';  // Clear the input field
+            } else {
+                inputElement.setCustomValidity('');
+            }
+        }
+    
+        // Add event listeners to both the 'arrive_date' and 'exit_date' fields
+        document.getElementById('id_arrive_date').addEventListener('input', function () {
+            validateDateInput(this);
+        });
+        
+        document.getElementById('id_exit_date').addEventListener('input', function () {
+            validateDateInput(this);
+        });
+        
+    </script>
+</body>
+</html>

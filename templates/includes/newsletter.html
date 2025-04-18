@@ -1,0 +1,31 @@
+{% load static %}
+
+<!-- start newsletter section -->
+<section class="newsLetter">
+    <p class="font-weight-bold h5 mb-3">عضویت در خبرنامه</p>
+    <p class="h6 mb-5">با عضویت در خبرنامه میتوانید خبر های جدیدی از ما داشته باشید</p>
+    <form method="POST" action="#">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" name="first_name" class="form-control" placeholder="نام" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" name="last_name" class="form-control" placeholder="نام خانوادگی" required>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button class="input-group-text" id="inputGroup-sizing-default">عضویت</button>
+                    </div>
+                    <input type="email" name="email" class="form-control mail-input" placeholder="ایمیل را وارد کنید" required>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+<!-- end newsletter section -->

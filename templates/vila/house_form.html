@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}اضافه کردن خانه{% endblock %}
+
+{% block content %}
+<section class="container content content-box">
+    <h2 class="page-title">اضافه کردن خانه</h2>
+    <div class="row mtop-2">
+        <div class="col-md-10 col-sm-9 content-wrapper">
+            <form method="post" class="user-info-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-section">
+                    <legend>اضافه کردن خانه</legend>
+                    <div class="form-input">
+                        <label for="id_name" class="form-label">نام موضوع:</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_image" class="form-label">تصویر 1:</label>
+                        {{ form.image }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_image2" class="form-label">تصویر 2:</label>
+                        {{ form.image2 }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_image3" class="form-label">تصویر 3:</label>
+                        {{ form.image3 }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_image4" class="form-label">تصویر 4:</label>
+                        {{ form.image4 }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_image5" class="form-label">تصویر 5:</label>
+                        {{ form.image5 }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_city" class="form-label">شهر:</label>
+                        {{ form.city }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_number_of_rooms" class="form-label">تعداد اتاق:</label>
+                        {{ form.number_of_rooms }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_area" class="form-label">متراژ:</label>
+                        {{ form.area }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_number_of_parkings" class="form-label">تعداد پارکینگ:</label>
+                        {{ form.number_of_parkings }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_capacity" class="form-label">ظرفیت:</label>
+                        {{ form.capacity }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_price_per_day" class="form-label">قیمت هر روز:</label>
+                        {{ form.price_per_day }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_pool" class="form-label">استخر:</label>
+                        {{ form.pool }}
+                    </div>
+                    <div class="form-input">
+                        <label for="id_oven" class="form-label">اجاق گاز:</label>
+                        {{ form.oven }}
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn-submit">ذخیره</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

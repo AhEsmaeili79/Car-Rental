@@ -1,0 +1,96 @@
+{% load static %}
+
+<section class="container my-5 py-md-5">
+    <p class="titleWithBg">پیشنهاد ما</p>
+    <div class="row">
+        {% for house in houses %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="hotelDetailCard">
+                        <div class="boxHeader">
+                            <a href="{% url 'house_detail' house.pk %}">
+                                <div class="img" style="background-image: url({{ house.image.url }})">
+                                    <div class="text">
+                                        <p class="m-0">{{ house.name }}</p>
+                                        <p class="m-0">{{ house.price_per_day }} تومان</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="detail row">
+                                <div class="col-3 px-1">
+                                    <img src="{% static 'images/icon/home.png' %}" alt="هتل">
+                                    <p class="m-0">{{ house.area }} متر</p>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <img src="{% static 'images/icon/home.png' %}" alt="هتل">
+                                    <p class="m-0">{{ house.number_of_rooms }} اتاق</p>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <img src="{% static 'images/icon/home.png' %}" alt="هتل">
+                                    <p class="m-0">{{ house.number_of_parkings }} پارکینگ</p>
+                                </div>
+                                <div class="col-3 px-1">
+                                    <img src="{% static 'images/icon/home.png' %}" alt="هتل">
+                                    <p class="m-0">{{ house.capacity }} نفر</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="boxContent">
+                            <a href="{% url 'house_detail' house.pk %}" class="font-weight-bold h6 my-4 text-center d-block" title="{{ house.city }}">
+                                {{ house.city }}
+                            </a>
+                            <div class="mb-2 d-flex align-items-center justify-content-center">
+                                <div>
+                                    <div class="progress circle mx-auto" data-value="25">
+                                        <span class="progress-left">
+                                            <span class="progress-bar border-warning"></span>
+                                        </span>
+                                        <span class="progress-right">
+                                            <span class="progress-bar border-warning"></span>
+                                        </span>
+                                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                            <div class="font-weight-bold">{{ house.rating }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="m-0">(امتیاز کاربران از 5)</p>
+                            </div>
+                        </div>
+                        <div class="boxFooter">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <button class="like-button"></button>
+                                </div>
+                                <div>
+                                    <div class="dropup share-btn px-2">
+                                        <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                        <div class="dropdown-menu" x-placement="top-start">
+                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در توییتر">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در فیسبوک">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در تلگرام">
+                                                <i class="fab fa-telegram-plane"></i>
+                                            </a>
+                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در اینستاگرام">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در لینکدین">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="{% url 'house_detail' house.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+</section>

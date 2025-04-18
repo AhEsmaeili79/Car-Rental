@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}User Information{% endblock %}
+
+{% block content %}
+<section class="container content content-box">
+    <h2 class="page-title">تغییر اطلاعات کاربری</h2>
+    <div class="row mtop-2">
+        <div class="col-md-10 col-sm-9 content-wrapper">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                    aria-labelledby="v-pills-home-tab">
+                    <p class="section-header">اطلاعات کاربری</p>
+                    <form method="post" class="user-info-form">
+                        {% csrf_token %}
+                        <fieldset class="form-section">
+                            <legend>اطلاعات کاربری</legend>
+                            <div class="form-input">
+                                <label for="id_first_name" class="form-label">نام:</label>
+                                <input class="input-field" type="text" name="first_name" id="id_first_name" value="{{ user_form.first_name.value }}" required>
+                            </div>
+                            <div class="form-input">
+                                <label for="id_last_name" class="form-label">نام خانوادگی:</label>
+                                <input class="input-field" type="text" name="last_name" id="id_last_name" value="{{ user_form.last_name.value }}" required>
+                            </div>
+                            <div class="form-input">
+                                <label for="id_email" class="form-label">ایمیل:</label>
+                                <input class="input-field" type="email" name="email" id="id_email" value="{{ user_form.email.value }}" required>
+                            </div>
+                            <div class="form-input">
+                                <label for="id_phonenumber" class="form-label">شماره تماس:</label>
+                                <input class="input-field" type="tel" name="phonenumber" id="id_phonenumber" value="{{ user_form.phonenumber.value }}" required>
+                            </div>
+                            <div class="form-input">
+                                <label for="id_address" class="form-label">آدرس:</label>
+                                <input class="input-field" type="text" name="address" id="id_address" value="{{ user_form.address.value }}" required>
+                            </div>
+                        </fieldset>
+                        <button type="submit" name="update_profile" class="btn-submit">تغییر</button>
+                    </form>
+
+                    <fieldset>
+                        <legend>دسترسی شما</legend>
+                        {% if user.role == 1 %}
+                            <p>شما دسترسی مدیریت دارید.</p>
+                        {% elif user.role == 2 %}
+                            <p>شما دسترسی میزبانی دارید</p>
+                        {% elif user.role == 3 %}
+                            <p>شما دسترسی مسافر دارید</p>
+                        {% endif %}
+                        {% if user.role == 3 %}
+                            {% if user.role_change_requested %}
+                                <p>درخواست شما با موفقیت به مدیریت ارسال گردید.</p>
+                            {% else %}
+                                <!-- Wrap the button in a form to submit the role change request -->
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" name="request_role_change" class="btn-submit">درخواست تغییر دسترسی به میزبانی</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

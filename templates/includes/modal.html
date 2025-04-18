@@ -1,0 +1,174 @@
+{% load static %}
+
+<div class="modal fade login-modal" id="exampleModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" {% if show_modal %}style="display:block;"{% endif %}>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="login-box" style="background-image: url('{% static 'images/Untitled-9.jpg' %}')">
+                    <div class="wrapper">
+                        <ul class="nav nav-pills mb-5 p-0" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-login-tab" data-toggle="pill"
+                                    href="#pills-login" role="tab" aria-controls="pills-login"
+                                    aria-selected="true">ورود</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-register-tab" data-toggle="pill"
+                                    href="#pills-register" role="tab" aria-controls="pills-register"
+                                    aria-selected="false">عضویت</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <!-- Login Form -->
+                            <div class="tab-pane fade show active" id="pills-login" role="tabpanel"
+                                aria-labelledby="pills-login-tab">
+                                <div class="row align-items-center justify-content-between">
+                                    <div class="col-md-5">
+                                        <form method="POST" action="{% url 'login' %}">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="username" placeholder="نام کاربری" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="password" placeholder="رمزعبور" required>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between my-2">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="rememberMe">
+                                                    <label class="custom-control-label" for="rememberMe">
+                                                        مرا به خاطر بسپار
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="white-btn rounded-border px-5">ورود</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-5 text-center image-wrapper">
+                                        <img src="{% static 'images/login.svg' %}" alt="ورود">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Registration Form -->
+                            <div class="tab-pane fade" id="pills-register" role="tabpanel"
+                                aria-labelledby="pills-register-tab">
+                                <div class="row align-items-center justify-content-between">
+                                    <div class="col-md-5">
+                                        <form method="POST" action="{% url 'signup' %}">
+                                            {% csrf_token %}
+                                            
+                                            <!-- Username Field -->
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="username" placeholder="نام کاربری" required>
+                                                {% if form.username.errors %}
+                                                    <div class="error">
+                                                        <ul>
+                                                            {% for error in form.username.errors %}
+                                                                <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <!-- First Name Field -->
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="first_name" placeholder="نام" required>
+                                                {% if form.first_name.errors %}
+                                                    <div class="error">
+                                                        <ul>
+                                                            {% for error in form.first_name.errors %}
+                                                                <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <!-- Last Name Field -->
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="last_name" placeholder="نام خانوادگی" required>
+                                                {% if form.last_name.errors %}
+                                                    <div class="error">
+                                                        <ul>
+                                                            {% for error in form.last_name.errors %}
+                                                                <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <!-- Email Field -->
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" name="email" placeholder="ایمیل" required>
+                                                {% if form.email.errors %}
+                                                    <div class="error">
+                                                        <ul>
+                                                            {% for error in form.email.errors %}
+                                                                <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <!-- Password Field -->
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="password1" placeholder="رمزعبور" required>
+                                                {% if form.password1.errors %}
+                                                    <div class="error">
+                                                        <ul>
+                                                            {% for error in form.password1.errors %}
+                                                                <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <!-- Password Confirmation Field -->
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="password2" placeholder="تکرار رمزعبور" required>
+                                                {% if form.password2.errors %}
+                                                    <div class="error">
+                                                        <ul>
+                                                            {% for error in form.password2.errors %}
+                                                                <li>{{ error }}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <!-- Checkbox for Terms and Conditions -->
+                                            <div class="d-flex align-items-center justify-content-between my-2">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="policyAccept" required>
+                                                    <label class="custom-control-label" for="policyAccept">
+                                                        با <a href="#" class="yellow-text" title="قوانین و مققرات">قوانین و مققرات</a> موافقم
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Submit Button -->
+                                            <div class="text-center">
+                                                <button type="submit" class="white-btn rounded-border px-5">عضویت</button>
+                                            </div>
+                                        </form>                                        
+                                    </div>
+                                    <div class="col-md-5 text-center image-wrapper">
+                                        <img src="{% static 'images/login.svg' %}" alt="ثبت نام">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}House Detail{% endblock %}
+
+{% block content %}
+
+<div class="container contentForTab show" for="v-pills-home-tab">
+    <div class="content-box p-3">
+        <p class="titleWithBg">تصاویر</p>
+        <div class="lightgallery image-gallery default">
+            {% if object.image %}
+                <div class="item-wrapper" data-src="{{ object.image.url }}"
+                    data-sub-html="<h4>عنوان 1</h4><p>متن توضیحی 1</p>">
+                    <a href="">
+                        <img class="img-responsive" src="{{ object.image.url }}">
+                    </a>
+                </div>
+            {% endif %}
+            
+            {% if object.image2 %}
+                <div class="item-wrapper" data-src="{{ object.image2.url }}"
+                    data-sub-html="<h4>عنوان 2</h4><p>متن توضیحی 2</p>">
+                    <a href="">
+                        <img class="img-responsive" src="{{ object.image2.url }}">
+                    </a>
+                </div>
+            {% endif %}
+            
+            {% if object.image3 %}
+                <div class="item-wrapper" data-src="{{ object.image3.url }}"
+                    data-sub-html="<h4>عنوان 3</h4><p>متن توضیحی 3</p>">
+                    <a href="">
+                        <img class="img-responsive" src="{{ object.image3.url }}">
+                    </a>
+                </div>
+            {% endif %}
+            
+            {% if object.image4 %}
+                <div class="item-wrapper" data-src="{{ object.image4.url }}"
+                    data-sub-html="<h4>عنوان 4</h4><p>متن توضیحی 4</p>">
+                    <a href="">
+                        <img class="img-responsive" src="{{ object.image4.url }}">
+                    </a>
+                </div>
+            {% endif %}
+            
+            {% if object.image5 %}
+                <div class="item-wrapper" data-src="{{ object.image5.url }}"
+                    data-sub-html="<h4>عنوان 5</h4><p>متن توضیحی 5</p>">
+                    <a href="">
+                        <img class="img-responsive" src="{{ object.image5.url }}">
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+    
+<section class="container content content-box ">
+    <h2 class="title-hotel">{{ object.name }}</h2>
+    <div class="row mtop-2">
+        <div class="col-md-2 col-sm-3 nav-wrapper">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                    aria-controls="v-pills-home" aria-selected="true">توضیحات کلی</a>
+                    
+                <a class="nav-link" id="v-pills-services-tab" data-toggle="pill" href="#v-pills-services" role="tab"
+                aria-controls="v-pills-services" aria-selected="false">امکانات</a>
+
+                <a class="nav-link" id="v-pills-comments-tab" data-toggle="pill" href="#v-pills-comments" role="tab"
+                    aria-controls="v-pills-comments" aria-selected="false">نظرات</a>
+
+                <a class="nav-link" id="v-pills-callInfo-tab" data-toggle="pill" href="#v-pills-callInfo" role="tab"
+                    aria-controls="v-pills-callInfo" aria-selected="false">اطلاعات تماس</a>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-9 content-wrapper">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                        aria-labelledby="v-pills-home-tab">
+                        <p class="titleWithBg">توضیحات کلی</p>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <p class="pr-3 mb-5 font-weight-bold">خلاصه امتیاز</p>
+                                <div>
+                                    <div class="row mb-2">
+                                        <div class="col-2 p-0">
+                                            <i class="far fa-star"></i>
+                                            <span>5</span>
+                                        </div>
+                                        <div class="col-8 px-1">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 65%"
+                                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 p-0 text-left">
+                                            <span>65%</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-2 p-0">
+                                            <i class="far fa-star"></i>
+                                            <span>4</span>
+                                        </div>
+                                        <div class="col-8 px-1">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 50%"
+                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 p-0 text-left">
+                                            <span>50%</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-2 p-0">
+                                            <i class="far fa-star"></i>
+                                            <span>3</span>
+                                        </div>
+                                        <div class="col-8 px-1">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 65%"
+                                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 p-0 text-left">
+                                            <span>65%</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-2 p-0">
+                                            <i class="far fa-star"></i>
+                                            <span>2</span>
+                                        </div>
+                                        <div class="col-8 px-1">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 40%"
+                                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 p-0 text-left">
+                                            <span>40%</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-2 p-0">
+                                            <i class="far fa-star"></i>
+                                            <span>1</span>
+                                        </div>
+                                        <div class="col-8 px-1">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 65%"
+                                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 p-0 text-left">
+                                            <span>65%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-5 d-flex align-items-center">
+                                    <div class="col-md-6 px-1 d-flex align-items-center justify-content-center">
+                                        <p class="h1 m-1 font-weight-bolder">4.1</p>
+                                        <div>
+                                            <p class="mb-1">خوب</p>
+                                            <div>
+                                                <i class="far fa-star"></i>
+                                                <i class="fas fa-star yellow-text"></i>
+                                                <i class="fas fa-star yellow-text"></i>
+                                                <i class="fas fa-star yellow-text"></i>
+                                                <i class="fas fa-star yellow-text"></i>
+                                            </div>
+                                            <p>120 نظر</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 px-1 text-center">
+                                    <a class="blue-btn rounded-border my-1 px-5" data-toggle="pill" href="#v-pills-comments" role="tab"
+                                        aria-controls="v-pills-comments" aria-selected="false">ثبت نظر</a>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-5 text-center">
+                                <a href="#" title="آدرس هتل">
+                                    <img class="img-thumbnail" src="{% static 'images/map.png' %}" alt="نقشه">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="tab-pane fade" id="v-pills-comments" role="tabpanel" aria-labelledby="v-pills-comments-tab">
+                        <p class="titleWithBg">نظرات</p>
+                        <div class="px-2">
+                            {% if user.is_authenticated %}
+                            <form id="commentForm" method="post" action="{% url 'house_detail' pk=object.pk %}">
+                                {% csrf_token %}
+                                
+                                <div class="row">
+
+                                    <div class="form-group">
+                                        <label for="id_rating">امتیاز:</label>
+                                        <select name="rating" id="id_rating" class="form-control" required>
+                                            <option value="" disabled {% if not form.rating.value %}selected{% endif %}>انتخاب امتیاز</option>
+                                            <option value="1" {% if form.rating.value == '1' %}selected{% endif %}>1 - ضعیف</option>
+                                            <option value="2" {% if form.rating.value == '2' %}selected{% endif %}>2 - متوسط</option>
+                                            <option value="3" {% if form.rating.value == '3' %}selected{% endif %}>3 - خوب</option>
+                                            <option value="4" {% if form.rating.value == '4' %}selected{% endif %}>4 - بسیار خوب</option>
+                                            <option value="5" {% if form.rating.value == '5' %}selected{% endif %}>5 - عالی</option>
+                                        </select>
+                                        {% for error in form.rating.errors %}
+                                            <p class="error text-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+
+                        
+
+                                    <!-- Comment Textarea -->
+                                    <div class="col-md-12 px-2">
+                                        <div class="form-group">
+                                            <textarea name="comment" id="id_comment" rows="4" class="form-control" placeholder="متن نظر خود را وارد کنید." required>{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
+                                            {% for error in form.comment.errors %}
+                                                <p class="error text-danger">{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div class="text-center">
+                                    <button type="submit" class="blue-btn rounded-border">ثبت نظر</button>
+                                </div>
+                            </form>
+                            {% else %}
+                            <p>لطفاً وارد حساب کاربری خود شوید تا بتوانید نظر ثبت کنید.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="v-pills-services" role="tabpanel" aria-labelledby="v-pills-services-tab">
+                        <p class="titleWithBg">امکانات ثابت</p>
+                        <div class="row mt-5">
+                            <!-- First Column for Features -->
+                            <div class="col-sm-6 col-md-4">
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">شهر: {{ object.city }}</p>
+                                </div>
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">تعداد اتاق: {{ object.number_of_rooms }}</p>
+                                </div>
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">مساحت: {{ object.area }} متر</p>
+                                </div>
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">تعداد پارکینگ: {{ object.number_of_parkings }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Second Column for Features -->
+                            <div class="col-sm-6 col-md-4">
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">ظرفیت: {{ object.capacity }} نفر</p>
+                                </div>
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">قیمت به ازای هر روز: {{ object.price_per_day }} تومان</p>
+                                </div>
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">استخر: {{ object.pool|yesno:"دارد,ندارد" }}</p>
+                                </div>
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">اجاق گاز: {{ object.oven|yesno:"دارد,ندارد" }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Third Column for Host and Other Features -->
+                            <div class="col-sm-6 col-md-4">
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">میزبان: {{ object.user.username }}</p>
+                                </div>
+                                <!-- Repeat services or add additional ones if required -->
+                                <div class="service">
+                                    <img src="{% static 'images/icon/icon-1.png' %}" alt="سرویس">
+                                    <p class="m-0">سرویس‌های اضافی دیگر</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="tab-pane fade" id="v-pills-callInfo" role="tabpanel"
+                        aria-labelledby="v-pills-callInfo-tab">
+                        <p class="titleWithBg">اطلاعات تماس</p>
+                        <div class="px-2 mt-5">
+                            <div class="h6 mb-3">
+                                <i class="fas fa-phone ml-2"></i>
+                                <span class="ml-2">نام میزبان:</span>
+                                <a class="light-blue-text text-decoration" title="تماس">{{ object.user.username }}</a>
+                            </div>
+                            <div class="h6 mb-3">
+                                <i class="fas fa-phone ml-2"></i>
+                                <span class="ml-2">شماره تماس:</span>
+                                <a href="#" class="light-blue-text text-decoration" title="تماس">09359148100</a>
+                            </div>
+                            <div class="h6 mb-3">
+                                <i class="fas fa-phone ml-2"></i>
+                                <span class="ml-2">شماره ثابت:</span>
+                                <a href="#" class="light-blue-text text-decoration" title="تماس">02188887777</a>
+                            </div>
+                            <div class="h6 mb-3">
+                                <i class="fas fa-envelope ml-2"></i>
+                                <span class="ml-2">ایمیل:</span>
+                                <a href="#" class="light-blue-text text-decoration" title="ایمیل">info@hotel.ir</a>
+                            </div>
+                            <p class="text-justify">
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک
+                                است. 
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container contentForTab show" for="v-pills-home-tab">
+    <div class="content-box p-3">
+        <p class="titleWithBg">رزرو</p>
+         {% if user.is_authenticated %}
+            <div class="space"></div>
+            <div class="center border-form padding-form">
+                <form method="post" action="{% url 'order_house' pk=object.pk %}" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_arrive_date">تاریخ شروع: </label>
+                        <input data-jdp name="arrive_date" data-jdp-min-date="today" id="id_arrive_date" class="input_date" data-jdp-only-date required autocomplete="off"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_exit_date">تاریخ تحویل:</label>
+                        <input data-jdp name="exit_date" data-jdp-min-date="today" id="id_exit_date" class="input_date" data-jdp-only-date required autocomplete="off"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_count_of_passengers">تعداد مسافر:</label>
+                        <input type="number" name="count_of_passengers" id="id_count_of_passengers" placeholder="فقط عدد" required autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">رزرو</button>
+                </form>
+                
+            </div>
+            {% else %}
+                <div class="center">
+                    <p>لطفا برای رزرو <a href="{% url 'login' %}">وارد </a>شوید.</p>
+                </div>
+            {% endif %}
+        </div>
+</div>
+
+<!-- نظرات -->
+
+<div class="container contentForTab" for="v-pills-comments-tab">
+    <div class="content-box p-3">
+        {% if reviews %}
+        {% for review in reviews %}
+        <div class="user-comments">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <p class="font-weight-bold">{{ review.user.username }}</p>
+                <div>
+                    <!-- Filled Stars -->
+                    {% for _ in review.filled_stars %}
+                        <i class="fas fa-star yellow-text"></i>
+                    {% endfor %}
+                    <!-- Empty Stars -->
+                    {% for _ in review.empty_stars %}
+                        <i class="far fa-star"></i>
+                    {% endfor %}
+                </div>
+                <p class="ml-2">{{ review.created_at|date:"Y/m/d" }}</p>
+            </div>
+            <p class="text-justify">
+                {{ review.comment }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="user-comments">
+        <p class="text-justify">هنوز هیچ نظری ثبت نشده است.</p>
+    </div>
+    
+    {% endif %}
+</div>
+
+{% include 'includes/offers.html' %}
+
+{% endblock %}

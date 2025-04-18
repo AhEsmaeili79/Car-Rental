@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container my-5 py-md-5">
+    <p class="titleWithBg">لیست هتل ها</p>
+    
+    <div class="search-filters">
+        <form class="search-form" method="get">
+            <label for="id_price">جستجو بر اساس قیمت (حداکثر):</label>
+            <input type="number" name="price" id="id_price" min="0" step="100">
+            <button type="submit">جستجو</button>
+        </form>
+        <form class="search-form" method="get">
+            <label for="id_location">جستجو بر اساس مکان:</label>
+            <input type="text" name="location" id="id_location">
+            <button type="submit">جستجو</button>
+        </form>
+        <div class="sort-options">
+            <form method="get">
+                <label for="id_sort_by">مرتب‌سازی بر اساس:</label>
+                <select name="sort_by" id="id_sort_by">
+                    <option value="-created_at">جدیدترین</option>
+                    <option value="price_per_day">قیمت (پایین به بالا)</option>
+                    <option value="-price_per_day">قیمت (بالا به پایین)</option>
+                </select>
+                <button type="submit">مرتب‌سازی</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <div class="row mt-4">
+        {% for house in houses %}
+        <div class="col-md-6">
+            <div class="hotelInfoCard">
+                <div class="row d-flex align-items-center">
+                    <div class="col-sm-7">
+                        <img class="w-100" src="{{ house.image.url }}" alt="{{ house.name }}">
+                    </div>
+                    <div class="col-sm-5 px-1">
+                        <a href="{% url 'house_detail' house.pk %}" class="font-weight-bold mb-3 d-block h5" title="{{ house.name }}">{{ house.name }}</a>
+                        <div class="my-2">
+                            <i class="far fa-star"></i>
+                            <i class="fas fa-star yellow-text"></i>
+                            <i class="fas fa-star yellow-text"></i>
+                            <i class="fas fa-star yellow-text"></i>
+                            <i class="fas fa-star yellow-text"></i>
+                        </div>
+                        <div class="my-2 d-flex align-items-center justify-content-center">
+                            <div>
+                                <div class="progress circle mx-auto" data-value='25'>
+                                    <span class="progress-left">
+                                        <span class="progress-bar border-warning"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar border-warning"></span>
+                                    </span>
+                                    <div
+                                        class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                        <div class="font-weight-bold">3</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="m-0">(امتیاز کاربران از 5)</p>
+                        </div>
+                        <p class="house-price">قیمت: روزی {{ house.price_per_day }} تومان</p>
+                        <p class="house-city">شهر: {{ house.city }}</p>
+                        <a href="{% url 'house_detail' house.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>خانه ای با این مشخصات پیدا نشد !!! </p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center my-3">
+        <a href="#" class="blue-btn" title="نمایش بیشتر">نمایش بیشتر</a>
+    </div>
+</section>
+{% endblock %}
