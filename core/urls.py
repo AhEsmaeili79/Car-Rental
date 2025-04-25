@@ -7,6 +7,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('', include('car.urls')),
+    path('reservations/', include('reservations.urls')),
+    path('', include('admin_app.urls')),
 ]
 
 if settings.DEBUG:

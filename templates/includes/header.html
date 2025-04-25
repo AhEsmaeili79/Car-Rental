@@ -44,16 +44,17 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown1"
                                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                    title="جاذبه گردشگری">
+                                    title="مدیریت">
                                     مدیریت
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                    <a class="dropdown-item" href="{% url 'house_create' %}">اضافه کردن</a>
-                                    <a class="dropdown-item" href="{% url 'host_houses' %}">خودرو ها</a>
+                                    <a class="dropdown-item" href="{% url 'car:car_create' %}">افزودن خودرو</a>
+                                    <a class="dropdown-item" href="{% url 'renter_cars' %}">خودروهای من</a>
+                                    <a class="dropdown-item" href="{% url 'reservations:renter_reservations' %}">رزروها</a>
                                 </div>
                             </li>
                         {% endif %}
-                        {% comment %} {% if user.is_superuser %}
+                        {% if user.is_superuser %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown1"
                                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -64,18 +65,18 @@
                                     <a class="dropdown-item" href="{% url 'admin_panel' %}">پنل ادمین</a>
                                 </div>
                             </li>
-                        {% endif %} {% endcomment %}
+                        {% endif %} 
 
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'car_list' %}" title="خودرو ها">خودرو ها</a>
+                        <a class="nav-link" href="{% url 'car:car_list' %}" title="خودرو ها">خودرو ها</a>
                     </li>
-                    {% comment %} <li class="nav-item">
+                   <li class="nav-item">
                         <a class="nav-link" href="{% url 'article' %}" title="بلاگ">بلاگ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about_us' %}" title="درباره ما">درباره ما</a>
-                    </li> {% endcomment %}
+                    </li> 
                 </ul>
                 {% if user.is_authenticated %}
                 {% else %}

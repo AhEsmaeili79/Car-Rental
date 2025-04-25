@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block title %}پنل مدیریت{% endblock %}
+
+{% block content %}
+<main class="container content content-box">
+    <h2 class="title-hotel">پنل مدیریت</h2>
+    
+    <div class="row mtop-2">
+        <!-- Sidebar Navigation -->
+        <div class="col-md-2 col-sm-3 nav-wrapper">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-users-tab" data-toggle="pill" href="#v-pills-users" role="tab" aria-controls="v-pills-users" aria-selected="true">مدیریت کاربران</a>
+                <a class="nav-link" id="v-pills-houses-tab" data-toggle="pill" href="#v-pills-houses" role="tab" aria-controls="v-pills-houses" aria-selected="false">مدیریت خانه‌ها</a>
+                <a class="nav-link" id="v-pills-orders-tab" data-toggle="pill" href="#v-pills-orders" role="tab" aria-controls="v-pills-orders" aria-selected="false">مدیریت سفارش‌ها</a>
+                <a class="nav-link" id="v-pills-requests-tab" data-toggle="pill" href="#v-pills-requests" role="tab" aria-controls="v-pills-requests" aria-selected="false">درخواست‌های میزبانی</a>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="col-md-10 col-sm-9 content-wrapper">
+            <div class="tab-content" id="v-pills-tabContent">
+                <!-- Users Management -->
+                <div class="tab-pane fade show active" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
+                    <p class="titleWithBg">مدیریت کاربران</p>
+                    <ul>
+                        <li>
+                            <h3>لیست کاربران</h3>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>نام کاربری</th>
+                                        <th>ایمیل</th>
+                                        <th>نقش</th>
+                                        <th>وضعیت</th>
+                                        <th>اقدامات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.get_role_display }}</td>
+                                        <td>
+                                            <form method="post" action="{% url 'toggle_user_status' user.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-{{ user.is_active|yesno:'success,danger' }}">{{ user.is_active|yesno:"غیرفعال , فعال " }}</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="post" action="{% url 'admin_delete_user' user.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Houses Management -->
+                <div class="tab-pane fade" id="v-pills-houses" role="tabpanel" aria-labelledby="v-pills-houses-tab">
+                    <p class="titleWithBg">مدیریت خانه‌ها</p>
+                    <ul>
+                        <li>
+                            <h3>لیست خانه‌ها</h3>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>نام</th>
+                                        <th>شهر</th>
+                                        <th>تعداد اتاق‌ها</th>
+                                        <th>ظرفیت</th>
+                                        <th>قیمت به ازای هر روز</th>
+                                        <th>وضعیت</th>
+                                        <th>اقدامات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for house in houses %}
+                                    <tr>
+                                        <td><a href="{% url 'house_detail' house.pk %}">{{ house.name }}</a></td>
+                                        <td>{{ house.city }}</td>
+                                        <td>{{ house.number_of_rooms }} اتاق</td>
+                                        <td>{{ house.capacity }} نفر</td>
+                                        <td>{{ house.price_per_day }} تومان</td>
+                                        <td>
+                                            <form method="post" action="{% url 'toggle_house_status' house.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-{{ house.is_active|yesno:'success,danger' }}">{{ house.is_active|yesno:"غیرفعال , فعال " }}</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="post" action="{% url 'admin_delete_house' house.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Orders Management -->
+                <div class="tab-pane fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
+                    <p class="titleWithBg">مدیریت سفارش‌ها</p>
+                    <ul>
+                        <li>
+                            <h3>لیست سفارش‌ها</h3>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>خانه</th>
+                                        <th>مسافر</th>
+                                        <th>تاریخ شروع</th>
+                                        <th>تاریخ تحویل</th>
+                                        <th>تعداد مسافرین</th>
+                                        <th>قیمت کل</th>
+                                        <th>اقدامات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td>{{ order.house.name }}</td>
+                                        <td>{{ order.user.username }}</td>
+                                        <td>{{ order.arrive_date|date:"Y/m/d" }}</td>
+                                        <td>{{ order.exit_date|date:"Y/m/d" }}</td>
+                                        <td>{{ order.count_of_passengers }} نفر</td>
+                                        <td>{{ order.total_price }} تومان</td>
+                                        <td>
+                                            <form method="post" action="{% url 'admin_delete_order' order.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">حذف</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Host Requests -->
+                <div class="tab-pane fade" id="v-pills-requests" role="tabpanel" aria-labelledby="v-pills-requests-tab">
+                    <p class="titleWithBg">درخواست‌های میزبانی</p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>کاربر</th>
+                                <th>ایمیل</th>
+                                <th>اقدامات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in host_requests %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'host_requests' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <button type="submit" name="action" value="approve" class="btn btn-success">موافقت</button>
+                                        <button type="submit" name="action" value="deny" class="btn btn-danger">لغو</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center">هیچ درخواستی برای میزبانی وجود ندارد.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

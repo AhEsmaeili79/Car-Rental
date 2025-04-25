@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}مدیریت سفارش‌ها{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">مدیریت سفارش‌ها</h2>
+    
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <input type="text" name="search" class="form-control mb-2 mr-sm-2" placeholder="جستجو..." value="{{ search_query }}">
+                <button type="submit" class="btn btn-primary mb-2">جستجو</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="float-md-right">
+                <select class="form-control" name="status_filter" onchange="this.form.submit()">
+                    <option value="">همه وضعیت‌ها</option>
+                    <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>در انتظار تایید</option>
+                    <option value="confirmed" {% if status_filter == 'confirmed' %}selected{% endif %}>تایید شده</option>
+                    <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>تکمیل شده</option>
+                    <option value="cancelled" {% if status_filter == 'cancelled' %}selected{% endif %}>لغو شده</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>شماره سفارش</th>
+                    <th>کاربر</th>
+                    <th>خودرو</th>
+                    <th>تاریخ شروع</th>
+                    <th>تاریخ پایان</th>
+                    <th>مبلغ کل</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.user.username }}</td>
+                    <td>{{ order.car.name }}</td>
+                    <td>{{ order.start_date|date:"Y/m/d" }}</td>
+                    <td>{{ order.end_date|date:"Y/m/d" }}</td>
+                    <td>{{ order.total_price }} تومان</td>
+                    <td>
+                        <span class="badge 
+                            {% if order.status == 'pending' %}badge-warning
+                            {% elif order.status == 'confirmed' %}badge-info
+                            {% elif order.status == 'completed' %}badge-success
+                            {% else %}badge-danger{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            {% if order.status == 'pending' %}
+                            <button type="submit" name="action" value="confirm" class="btn btn-success btn-sm">
+                                تایید
+                            </button>
+                            {% endif %}
+                            {% if order.status != 'cancelled' and order.status != 'completed' %}
+                            <button type="submit" name="action" value="cancel" class="btn btn-warning btn-sm">
+                                لغو
+                            </button>
+                            {% endif %}
+                            <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('آیا از حذف این سفارش اطمینان دارید؟')">
+                                حذف
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">سفارشی یافت نشد</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if orders.has_other_pages %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if orders.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ orders.previous_page_number }}">&laquo;</a>
+            </li>
+            {% endif %}
+
+            {% for i in orders.paginator.page_range %}
+            <li class="page-item {% if orders.number == i %}active{% endif %}">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+
+            {% if orders.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ orders.next_page_number }}">&raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'admin_panel' %}" class="btn btn-secondary">بازگشت به پنل ادمین</a>
+    </div>
+</div>
+{% endblock %} 

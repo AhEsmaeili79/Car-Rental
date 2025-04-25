@@ -30,15 +30,15 @@
     
 
     <div class="row mt-4">
-        {% for house in houses %}
+        {% for car in cars %}
         <div class="col-md-6">
-            <div class="hotelInfoCard">
+            <div class="carInfoCard">
                 <div class="row d-flex align-items-center">
                     <div class="col-sm-7">
-                        <img class="w-100" src="{{ house.image.url }}" alt="{{ house.name }}">
+                        <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
                     </div>
                     <div class="col-sm-5 px-1">
-                        <a href="{% url 'car_detail' house.pk %}" class="font-weight-bold mb-3 d-block h5" title="{{ house.name }}">{{ house.name }}</a>
+                        <a href="{% url 'car:car_detail' car.pk %}" class="font-weight-bold mb-3 d-block h5" title="{{ car.name }}">{{ car.name }}</a>
                         <div class="my-2">
                             <i class="far fa-star"></i>
                             <i class="fas fa-star yellow-text"></i>
@@ -63,9 +63,9 @@
                             </div>
                             <p class="m-0">(امتیاز کاربران از 5)</p>
                         </div>
-                        <p class="house-price">قیمت: روزی {{ house.price_per_day }} تومان</p>
-                        <p class="house-city">شهر: {{ house.city }}</p>
-                        <a href="{% url 'car_detail' house.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                        <p class="car-price">قیمت: روزی {{ car.price_per_day }} تومان</p>
+                        <p class="car-city">شهر: {{ car.city }}</p>
+                        <a href="{% url 'car:car_detail' car.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}مدیریت خودروها{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">مدیریت خودروها</h2>
+    
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <input type="text" name="search" class="form-control mb-2 mr-sm-2" placeholder="جستجو..." value="{{ search_query }}">
+                <button type="submit" class="btn btn-primary mb-2">جستجو</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="float-md-right">
+                <select class="form-control" name="status_filter" onchange="this.form.submit()">
+                    <option value="">همه وضعیت‌ها</option>
+                    <option value="active" {% if status_filter == 'active' %}selected{% endif %}>فعال</option>
+                    <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>غیرفعال</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cars Table -->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>تصویر</th>
+                    <th>نام</th>
+                    <th>میزبان</th>
+                    <th>قیمت روزانه</th>
+                    <th>شهر</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    <td>
+                        <img src="{{ car.image.url }}" alt="{{ car.name }}" style="width: 50px; height: 50px; object-fit: cover;">
+                    </td>
+                    <td>{{ car.name }}</td>
+                    <td>{{ car.user.username }}</td>
+                    <td>{{ car.price_per_day }} تومان</td>
+                    <td>{{ car.city }}</td>
+                    <td>
+                        <span class="badge {% if car.is_active %}badge-success{% else %}badge-danger{% endif %}">
+                            {% if car.is_active %}فعال{% else %}غیرفعال{% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="car_id" value="{{ car.id }}">
+                            <button type="submit" name="action" value="toggle_status" 
+                                    class="btn btn-sm {% if car.is_active %}btn-warning{% else %}btn-success{% endif %}">
+                                {% if car.is_active %}غیرفعال‌سازی{% else %}فعال‌سازی{% endif %}
+                            </button>
+                            <a href="{% url 'car_detail' car.id %}" class="btn btn-info btn-sm">جزئیات</a>
+                            <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('آیا از حذف این خودرو اطمینان دارید؟')">
+                                حذف
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">خودرویی یافت نشد</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if cars.has_other_pages %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if cars.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ cars.previous_page_number }}">&laquo;</a>
+            </li>
+            {% endif %}
+
+            {% for i in cars.paginator.page_range %}
+            <li class="page-item {% if cars.number == i %}active{% endif %}">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+
+            {% if cars.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ cars.next_page_number }}">&raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'admin_panel' %}" class="btn btn-secondary">بازگشت به پنل ادمین</a>
+    </div>
+</div>
+{% endblock %} 

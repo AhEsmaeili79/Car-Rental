@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
@@ -15,7 +14,7 @@ class UserManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
 
 class User(AbstractUser):
-    ROLES = ((1, 'Admin'), (2, 'Host'), (3, 'Passenger'))
+    ROLES = ((1, 'Admin'), (2, 'Renter'), (3, 'Passenger'))
     role = models.IntegerField(choices=ROLES, default=3)
     phonenumber = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)

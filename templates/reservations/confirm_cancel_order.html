@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cancel Order{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Cancel Order Confirmation</h2>
+            <p class="card-text">Are you sure you want to cancel your order for {{ order.car.name }}?</p>
+            <div class="card-text mb-4">
+                <strong>Order Details:</strong><br>
+                Pickup Date: {{ order.pickup_date }}<br>
+                Return Date: {{ order.return_date }}<br>
+                Number of Passengers: {{ order.number_of_passengers }}<br>
+                Total Price: {{ order.total_price }} تومان
+            </div>
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes, Cancel Order</button>
+                <a href="{% url 'reservations:user_orders' %}" class="btn btn-secondary">No, Keep Order</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

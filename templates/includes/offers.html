@@ -7,7 +7,7 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="hotelDetailCard">
                         <div class="boxHeader">
-                            <a href="{% url 'car_detail' house.pk %}">
+                            <a href="{% url 'car:car_detail' house.pk %}">
                                 <div class="img" style="background-image: url({{ house.image.url }})">
                                     <div class="text">
                                         <p class="m-0">{{ house.name }}</p>
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="boxContent">
-                            <a href="{% url 'car_detail' house.pk %}" class="font-weight-bold h6 my-4 text-center d-block" title="{{ house.city }}">
+                            <a href="{% url 'car:car_detail' house.pk %}" class="font-weight-bold h6 my-4 text-center d-block" title="{{ house.city }}">
                                 {{ house.city }}
                             </a>
                             <div class="mb-2 d-flex align-items-center justify-content-center">
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="{% url 'car_detail' house.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                                <a href="{% url 'car:car_detail' house.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
                             </div>
                         </div>
                     </div>

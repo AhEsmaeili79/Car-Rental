@@ -1,5 +1,3 @@
-
-
 import os
 from pathlib import Path
 
@@ -20,6 +18,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'car',
     'users',
+    'reservations',
+    'admin_app',
 ]
 
 MIDDLEWARE = [

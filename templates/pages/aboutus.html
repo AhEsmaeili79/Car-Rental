@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}درباره ما{% endblock %}
+
+{% block content %}
+<section class="about-section py-5" style="background-color: #f3f3f3;">
+    <div class="container">
+        <div class="intro-section" style="background-image: url('{% static "images/intro-bg.png" %}'); background-size: cover; background-position: center; padding: 50px; border-radius: 10px;">
+            <h1 class="text-center mb-4" style="color: #ffffff;">درباره ما</h1>
+            <div class="row">
+                <div class="col-lg-6 mb-4 " style="color: #ffffff;">
+                    <p>ما با سابقه‌ای درخشان در ارائه خدمات رفاهی و اقامتی، تلاش می‌کند تا به بهترین شکل ممکن نیازهای مهمانان خود را برآورده سازد. هدف ما ایجاد فضایی راحت و دلنشین برای اقامتی خاطره‌انگیز است.</p>
+                    <p>ما به کیفیت، آرامش، و رضایت مشتریان خود متعهد هستیم و در این راستا تلاش می‌کنیم تا با ارائه بهترین امکانات و خدمات، تجربه‌ای منحصربه‌فرد را برای شما رقم بزنیم.</p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="{% static 'images/about.jpg' %}" alt="درباره ما" class="img-fluid rounded shadow-sm">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="team-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">تیم ما</h2>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="{% static 'images/team/member2.png' %}" alt="مینا رضایی" class="team-photo rounded-circle mb-3 shadow-sm" width="150" height="150">
+                <h4 class="team-name">مینا رضایی</h4>
+                <p class="team-role">مدیر روابط عمومی</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="{% static 'images/team/member1.png' %}" alt="نگار ادهمی" class="team-photo rounded-circle mb-3 shadow-sm" width="150" height="150">
+                <h4 class="team-name">نگار ادهمی</h4>
+                <p class="team-role">مدیر</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="{% static 'images/team/member3.png' %}" alt="حسین موسوی" class="team-photo rounded-circle mb-3 shadow-sm" width="150" height="150">
+                <h4 class="team-name">حسین موسوی</h4>
+                <p class="team-role">مدیر فنی</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -76,7 +76,7 @@ class CarDetailView(DetailView):
             messages.success(request, 'نظر شما با موفقیت ثبت شد.')
         else:
             messages.error(request, 'خطا در ثبت نظر.')
-        return redirect('car_detail', pk=car.pk)
+        return redirect('car:car_detail', pk=car.pk)
 
 
 def car_create(request):
