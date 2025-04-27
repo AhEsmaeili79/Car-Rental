@@ -86,7 +86,7 @@ def car_create(request):
             car = form.save(commit=False)
             car.user = request.user
             car.save()
-            return redirect('host_cars')
+            return redirect('car:car_list')
     else:
         form = CarForm()
     return render(request, 'car/car_form.html', {'form': form})
@@ -96,7 +96,7 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
     model = Car
     form_class = CarForm
     template_name = 'car/car_form.html'
-    success_url = reverse_lazy('car_list')
+    success_url = reverse_lazy('car:car_list')
 
     def get_queryset(self):
         return Car.objects.filter(user=self.request.user)
@@ -105,7 +105,7 @@ class CarUpdateView(LoginRequiredMixin, UpdateView):
 class CarDeleteView(LoginRequiredMixin, DeleteView):
     model = Car
     template_name = 'car/car_confirm_delete.html'
-    success_url = reverse_lazy('car_list')
+    success_url = reverse_lazy('car:car_list')
 
     def get_queryset(self):
         return Car.objects.filter(user=self.request.user)

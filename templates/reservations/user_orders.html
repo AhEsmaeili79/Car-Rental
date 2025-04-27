@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}My Orders{% endblock %}
+{% block title %}سفارش‌های من{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4">My Car Rental Orders</h2>
+    <h2 class="mb-4">سفارش‌های اجاره خودرو من</h2>
     {% if orders %}
         <div class="row">
             {% for order in orders %}
@@ -14,17 +14,17 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ order.car.name }}</h5>
                             <p class="card-text">
-                                <strong>Pickup Date:</strong> {{ order.pickup_date }}<br>
-                                <strong>Return Date:</strong> {{ order.return_date }}<br>
-                                <strong>Number of Passengers:</strong> {{ order.number_of_passengers }}<br>
-                                <strong>Total Price:</strong> {{ order.total_price }} تومان<br>
-                                <strong>Status:</strong> {{ order.status }}<br>
-                                <strong>City:</strong> {{ order.car.city }}
+                                <strong>تاریخ تحویل:</strong> {{ order.pickup_date }}<br>
+                                <strong>تاریخ بازگشت:</strong> {{ order.return_date }}<br>
+                                <strong>تعداد مسافران:</strong> {{ order.number_of_passengers }}<br>
+                                <strong>مبلغ کل:</strong> {{ order.total_price }} تومان<br>
+                                <strong>وضعیت:</strong> {{ order.status }}<br>
+                                <strong>شهر:</strong> {{ order.car.city }}
                             </p>
                             {% if order.status == 'pending' %}
                                 <form method="post" action="{% url 'reservations:cancel_order' order.id %}" class="d-inline">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">Cancel Order</button>
+                                    <button type="submit" class="btn btn-danger">لغو سفارش</button>
                                 </form>
                             {% endif %}
                         </div>
@@ -34,7 +34,7 @@
         </div>
     {% else %}
         <div class="alert alert-info">
-            You don't have any car rental orders yet.
+            شما هنوز هیچ سفارش اجاره خودرویی ندارید.
         </div>
     {% endif %}
 </div>

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Host Reservations{% endblock %}
+{% block title %}رزروهای میزبان{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4">Car Rental Reservations</h2>
+    <h2 class="mb-4">رزروهای اجاره خودرو</h2>
     {% if reservations %}
         <div class="row">
             {% for order in reservations %}
@@ -14,23 +14,23 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ order.car.name }}</h5>
                             <p class="card-text">
-                                <strong>Customer:</strong> {{ order.user.username }}<br>
-                                <strong>Pickup Date:</strong> {{ order.pickup_date }}<br>
-                                <strong>Return Date:</strong> {{ order.return_date }}<br>
-                                <strong>Number of Passengers:</strong> {{ order.number_of_passengers }}<br>
-                                <strong>Total Price:</strong> {{ order.total_price }} تومان<br>
-                                <strong>Status:</strong> {{ order.status }}<br>
-                                <strong>City:</strong> {{ order.car.city }}
+                                <strong>مشتری:</strong> {{ order.user.username }}<br>
+                                <strong>تاریخ تحویل:</strong> {{ order.pickup_date }}<br>
+                                <strong>تاریخ بازگشت:</strong> {{ order.return_date }}<br>
+                                <strong>تعداد مسافران:</strong> {{ order.number_of_passengers }}<br>
+                                <strong>مبلغ کل:</strong> {{ order.total_price }} تومان<br>
+                                <strong>وضعیت:</strong> {{ order.status }}<br>
+                                <strong>شهر:</strong> {{ order.car.city }}
                             </p>
                             {% if order.status == 'pending' %}
                                 <div class="mt-3">
                                     <form method="post" action="{% url 'reservations:confirm_order' order.id %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-success">Confirm</button>
+                                        <button type="submit" class="btn btn-success">تایید</button>
                                     </form>
                                     <form method="post" action="{% url 'reservations:reject_order' order.id %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                        <button type="submit" class="btn btn-danger">رد</button>
                                     </form>
                                 </div>
                             {% endif %}
@@ -41,7 +41,7 @@
         </div>
     {% else %}
         <div class="alert alert-info">
-            You don't have any car rental reservations yet.
+            شما هنوز هیچ درخواست رزرو خودرویی ندارید.
         </div>
     {% endif %}
 </div>

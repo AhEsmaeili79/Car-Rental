@@ -13,11 +13,11 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=0)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=[
-        ('pending', 'Pending'),
-        ('confirmed', 'Confirmed'),
-        ('cancelled', 'Cancelled'),
-        ('completed', 'Completed')
+        ('pending', 'در انتظار تایید'),
+        ('confirmed', 'تایید شده'),
+        ('cancelled', 'لغو شده'),
+        ('completed', 'تکمیل شده')
     ], default='pending')
 
     def __str__(self):
-        return f"Order for {self.car.name} by {self.user.username}"
+        return f"سفارش {self.car.name} توسط {self.user.username}"

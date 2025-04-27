@@ -1,76 +1,258 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if car %}ویرایش خودرو{% else %}افزودن خودرو جدید{% endif %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #f1f3f6;
+            padding: 20px;
+            direction: rtl;
+        }
+        .content-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .page-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: right;
+        }
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-align: right;
+            display: block;
+            width: 100%;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: right;
+            padding: 12px 15px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
+        }
+        .image-preview {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            background: #f9fafb;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+        .image-preview:hover {
+            border-color: #4a90e2;
+        }
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .upload-placeholder {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            width: 100%;
+        }
+        .upload-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+            color: #4a90e2;
+        }
+        .btn-primary {
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 17px;
+            margin-top: 20px;
+        }
+        .form-check {
+            padding-right: 1.5em;
+            text-align: right;
+        }
+        .form-check-input {
+            margin-right: -1.5em;
+        }
+        .form-check-label {
+            padding-right: 1.5em;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
 
-{% block title %}اضافه کردن خودرو{% endblock %}
+<body>
 
-{% block content %}
-<section class="container content content-box">
-    <h2 class="page-title">اضافه کردن خودرو</h2>
-    <div class="row mtop-2">
-        <div class="col-md-10 col-sm-9 content-wrapper">
-            <form method="post" class="user-info-form" enctype="multipart/form-data">
-                {% csrf_token %}
-                <fieldset class="form-section">
-                    <legend>اضافه کردن خودرو</legend>
-                    <div class="form-input">
-                        <label for="id_name" class="form-label">نام موضوع:</label>
-                        {{ form.name }}
+<div class="container">
+    <section class="content-box">
+        <h2 class="page-title">{% if car %}ویرایش خودرو{% else %}افزودن خودرو جدید{% endif %}</h2>
+
+        <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <!-- اطلاعات خودرو -->
+            <div class="mb-4">
+                <label for="name" class="form-label">مدل و برند خودرو</label>
+                <input type="text" id="name" name="name" class="form-control" required 
+                       value="{% if car %}{{ car.name }}{% endif %}">
+            </div>
+
+            <!-- تصاویر خودرو -->
+            <h5 class="section-title">تصاویر خودرو</h5>
+            <div class="row g-4">
+                <!-- تصویر اصلی -->
+                <div class="col-md-6">
+                    <div class="image-preview" onclick="document.getElementById('image').click()">
+                        <img id="preview_image" alt="تصویر اصلی" 
+                             {% if car.image %}src="{{ car.image.url }}" style="display: block;"{% endif %}>
+                        <div class="upload-placeholder" {% if car.image %}style="display: none;"{% endif %}>
+                            <i class="fas fa-camera"></i>
+                            کلیک برای آپلود تصویر
+                        </div>
                     </div>
-                    <div class="form-input">
-                        <label for="id_image" class="form-label">تصویر 1:</label>
-                        {{ form.image }}
+                    <input type="file" id="image" name="image" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- تصویر اضافی 1 -->
+                <div class="col-md-6">
+                    <div class="image-preview" onclick="document.getElementById('image2').click()">
+                        <img id="preview_image2" alt="تصویر اضافی ۱"
+                             {% if car.image2 %}src="{{ car.image2.url }}" style="display: block;"{% endif %}>
+                        <div class="upload-placeholder" {% if car.image2 %}style="display: none;"{% endif %}>
+                            <i class="fas fa-camera"></i>
+                            کلیک برای آپلود تصویر
+                        </div>
                     </div>
-                    <div class="form-input">
-                        <label for="id_image2" class="form-label">تصویر 2:</label>
-                        {{ form.image2 }}
+                    <input type="file" id="image2" name="image2" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- تصویر اضافی 2 -->
+                <div class="col-md-6">
+                    <div class="image-preview" onclick="document.getElementById('image3').click()">
+                        <img id="preview_image3" alt="تصویر اضافی ۲"
+                             {% if car.image3 %}src="{{ car.image3.url }}" style="display: block;"{% endif %}>
+                        <div class="upload-placeholder" {% if car.image3 %}style="display: none;"{% endif %}>
+                            <i class="fas fa-camera"></i>
+                            کلیک برای آپلود تصویر
+                        </div>
                     </div>
-                    <div class="form-input">
-                        <label for="id_image3" class="form-label">تصویر 3:</label>
-                        {{ form.image3 }}
+                    <input type="file" id="image3" name="image3" accept="image/*" style="display: none;">
+                </div>
+
+                <!-- تصویر اضافی 3 -->
+                <div class="col-md-6">
+                    <div class="image-preview" onclick="document.getElementById('image4').click()">
+                        <img id="preview_image4" alt="تصویر اضافی ۳"
+                             {% if car.image4 %}src="{{ car.image4.url }}" style="display: block;"{% endif %}>
+                        <div class="upload-placeholder" {% if car.image4 %}style="display: none;"{% endif %}>
+                            <i class="fas fa-camera"></i>
+                            کلیک برای آپلود تصویر
+                        </div>
                     </div>
-                    <div class="form-input">
-                        <label for="id_image4" class="form-label">تصویر 4:</label>
-                        {{ form.image4 }}
+                    <input type="file" id="image4" name="image4" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <!-- اطلاعات دیگر -->
+            <div class="row mt-5">
+                <div class="col-md-6 mb-3">
+                    <label for="city" class="form-label">شهر</label>
+                    <input type="text" id="city" name="city" class="form-control" required 
+                           value="{% if car %}{{ car.city }}{% endif %}">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="capacity" class="form-label">ظرفیت</label>
+                    <input type="number" id="capacity" name="capacity" class="form-control" required 
+                           value="{% if car %}{{ car.capacity }}{% endif %}">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="price" class="form-label">قیمت روزانه</label>
+                    <input type="number" id="price" name="price_per_day" class="form-control" required 
+                           value="{% if car %}{{ car.price_per_day }}{% endif %}">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" id="with_driver" name="with_driver" class="form-check-input"
+                               {% if car and car.with_driver %}checked{% endif %}>
+                        <label for="with_driver" class="form-check-label">
+                            با راننده
+                        </label>
                     </div>
-                    <div class="form-input">
-                        <label for="id_image5" class="form-label">تصویر 5:</label>
-                        {{ form.image5 }}
-                    </div>
-                    <div class="form-input">
-                        <label for="id_city" class="form-label">شهر:</label>
-                        {{ form.city }}
-                    </div>
-                    <div class="form-input">
-                        <label for="id_number_of_rooms" class="form-label">تعداد اتاق:</label>
-                        {{ form.number_of_rooms }}
-                    </div>
-                    <div class="form-input">
-                        <label for="id_area" class="form-label">متراژ:</label>
-                        {{ form.area }}
-                    </div>
-                    <div class="form-input">
-                        <label for="id_number_of_parkings" class="form-label">تعداد پارکینگ:</label>
-                        {{ form.number_of_parkings }}
-                    </div>
-                    <div class="form-input">
-                        <label for="id_capacity" class="form-label">ظرفیت:</label>
-                        {{ form.capacity }}
-                    </div>
-                    <div class="form-input">
-                        <label for="id_price_per_day" class="form-label">قیمت هر روز:</label>
-                        {{ form.price_per_day }}
-                    </div>
-                    <div class="form-input">
-                        <label for="id_pool" class="form-label">استخر:</label>
-                        {{ form.pool }}
-                    </div>
-                    <div class="form-input">
-                        <label for="id_oven" class="form-label">اجاق گاز:</label>
-                        {{ form.oven }}
-                    </div>
-                </fieldset>
-                <button type="submit" class="btn-submit">ذخیره</button>
-            </form>
-        </div>
-    </div>
-</section>
-{% endblock %}
+                </div>
+            </div>
+
+            <!-- دکمه ارسال -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                    {% if car %}ذخیره تغییرات{% else %}ذخیره خودرو{% endif %}
+                </button>
+            </div>
+        </form>
+    </section>
+</div>
+
+<!-- اسکریپت پیش نمایش عکس -->
+<script>
+    function readURL(input, previewId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = document.querySelector(previewId);
+                var placeholder = img.parentElement.querySelector('.upload-placeholder');
+                img.src = e.target.result;
+                img.style.display = 'block';
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    const imageMappings = [
+        { inputId: "image", previewId: "#preview_image" },
+        { inputId: "image2", previewId: "#preview_image2" },
+        { inputId: "image3", previewId: "#preview_image3" },
+        { inputId: "image4", previewId: "#preview_image4" }
+    ];
+
+    imageMappings.forEach(function(mapping) {
+        const inputElement = document.getElementById(mapping.inputId);
+        if (inputElement) {
+            inputElement.addEventListener("change", function() {
+                readURL(this, mapping.previewId);
+            });
+        }
+    });
+</script>
+
+<!-- آیکون دوربین -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
