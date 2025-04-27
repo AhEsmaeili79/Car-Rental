@@ -1,84 +1,561 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<section class="container my-5 py-md-5">
-    <p class="titleWithBg">لیست خودرو ها</p>
-    
-    <div class="search-filters">
-        <form class="search-form" method="get">
-            <label for="id_price">جستجو بر اساس قیمت (حداکثر):</label>
-            <input type="number" name="price" id="id_price" min="0" step="100">
-            <button type="submit">جستجو</button>
-        </form>
-        <form class="search-form" method="get">
-            <label for="id_location">جستجو بر اساس مکان:</label>
-            <input type="text" name="location" id="id_location">
-            <button type="submit">جستجو</button>
-        </form>
-        <div class="sort-options">
-            <form method="get">
-                <label for="id_sort_by">مرتب‌سازی بر اساس:</label>
-                <select name="sort_by" id="id_sort_by">
-                    <option value="-created_at">جدیدترین</option>
-                    <option value="price_per_day">قیمت (پایین به بالا)</option>
-                    <option value="-price_per_day">قیمت (بالا به پایین)</option>
-                </select>
-                <button type="submit">مرتب‌سازی</button>
-            </form>
+<section class="car-list-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">
+                <i class="fas fa-car"></i>
+                <span>خودروها</span>
+            </div>
+            <h1 class="section-title">لیست خودروها</h1>
+            <p class="section-subtitle">خودرو مورد نظر خود را از میان بهترین‌ها انتخاب کنید</p>
         </div>
-    </div>
-    
 
-    <div class="row mt-4">
-        {% for car in cars %}
-        <div class="col-md-6">
-            <div class="carInfoCard">
-                <div class="row d-flex align-items-center">
-                    <div class="col-sm-7">
-                        <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
+        <div class="search-filters">
+            <div class="filters-container">
+                <form class="search-form" method="get">
+                    <div class="form-group">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="search" placeholder="جستجوی خودرو..." class="form-control">
                     </div>
-                    <div class="col-sm-5 px-1">
-                        <a href="{% url 'car:car_detail' car.pk %}" class="font-weight-bold mb-3 d-block h5" title="{{ car.name }}">{{ car.name }}</a>
-                        <div class="my-2">
-                            <i class="far fa-star"></i>
-                            <i class="fas fa-star yellow-text"></i>
-                            <i class="fas fa-star yellow-text"></i>
-                            <i class="fas fa-star yellow-text"></i>
-                            <i class="fas fa-star yellow-text"></i>
+                </form>
+                
+                <div class="filter-group">
+                    <form class="filter-form" method="get">
+                        <div class="form-group">
+                            <label for="id_price">
+                                <i class="fas fa-tag"></i>
+                                <span>حداکثر قیمت</span>
+                            </label>
+                            <input type="number" name="price" id="id_price" min="0" step="100" class="form-control" placeholder="مثلاً 500000">
                         </div>
-                        <div class="my-2 d-flex align-items-center justify-content-center">
-                            <div>
-                                <div class="progress circle mx-auto" data-value='25'>
-                                    <span class="progress-left">
-                                        <span class="progress-bar border-warning"></span>
-                                    </span>
-                                    <span class="progress-right">
-                                        <span class="progress-bar border-warning"></span>
-                                    </span>
-                                    <div
-                                        class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                                        <div class="font-weight-bold">3</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="m-0">(امتیاز کاربران از 5)</p>
+                    </form>
+
+                    <form class="filter-form" method="get">
+                        <div class="form-group">
+                            <label for="id_location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>شهر</span>
+                            </label>
+                            <input type="text" name="location" id="id_location" class="form-control" placeholder="نام شهر">
                         </div>
-                        <p class="car-price">قیمت: روزی {{ car.price_per_day }} تومان</p>
-                        <p class="car-city">شهر: {{ car.city }}</p>
-                        <a href="{% url 'car:car_detail' car.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
-                    </div>
+                    </form>
+
+                    <form class="filter-form" method="get">
+                        <div class="form-group">
+                            <label for="id_sort_by">
+                                <i class="fas fa-sort"></i>
+                                <span>مرتب‌سازی</span>
+                            </label>
+                            <select name="sort_by" id="id_sort_by" class="form-control">
+                                <option value="-created_at">جدیدترین</option>
+                                <option value="price_per_day">قیمت (پایین به بالا)</option>
+                                <option value="-price_per_day">قیمت (بالا به پایین)</option>
+                            </select>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <div class="col-12">
-            <p>خودرو ای با این مشخصات پیدا نشد !!! </p>
-        </div>
-        {% endfor %}
-    </div>
 
-    <div class="text-center my-3">
-        <a href="#" class="blue-btn" title="نمایش بیشتر">نمایش بیشتر</a>
+        <div class="cars-grid">
+            {% for car in cars %}
+            <div class="car-card">
+                <div class="car-image">
+                    <img src="{{ car.image.url }}" alt="{{ car.name }}">
+                    <div class="car-badge">
+                        <i class="fas fa-star"></i>
+                        <span>پیشنهاد ویژه</span>
+                    </div>
+                    <div class="car-overlay">
+                        <a href="{% url 'car:car_detail' car.pk %}" class="view-btn">
+                            <i class="fas fa-eye"></i>
+                            <span>مشاهده جزئیات</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="car-info">
+                    <h3 class="car-name">
+                        <a href="{% url 'car:car_detail' car.pk %}">{{ car.name }}</a>
+                    </h3>
+                    
+                    <div class="car-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-value">4.5</span>
+                        <span class="rating-count">(120 نظر)</span>
+                    </div>
+                    
+                    <div class="car-details">
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ car.city }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>مدل {{ car.year }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="car-price">
+                        <span class="price-label">قیمت روزانه:</span>
+                        <span class="price-value">{{ car.price_per_day }}</span>
+                        <span class="price-currency">تومان</span>
+                    </div>
+                    
+                    <a href="{% url 'car:car_detail' car.pk %}" class="reserve-btn">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>رزرو خودرو</span>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-results">
+                <i class="fas fa-car-crash"></i>
+                <h3>خودرویی یافت نشد!</h3>
+                <p>متأسفانه هیچ خودرویی با مشخصات درخواستی شما یافت نشد.</p>
+                <a href="{% url 'car:car_list' %}" class="reset-filters">
+                    <i class="fas fa-redo"></i>
+                    <span>بازگشت به لیست</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            <a href="#" class="load-more">
+                <i class="fas fa-chevron-down"></i>
+                <span>نمایش خودروهای بیشتر</span>
+            </a>
+        </div>
     </div>
 </section>
+
+<style>
+.car-list-section {
+    padding: 60px 0;
+    background: #f8f9fa;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+}
+
+.section-badge i {
+    margin-left: 8px;
+}
+
+.section-title {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    border-radius: 3px;
+}
+
+.section-subtitle {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.filters-container {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+}
+
+.search-form {
+    margin-bottom: 20px;
+}
+
+.search-form .form-group {
+    position: relative;
+}
+
+.search-form i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+}
+
+.search-form input {
+    padding-right: 45px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.search-form input:focus {
+    border-color: #1e3c72;
+    box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+.filter-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.filter-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-form label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.filter-form i {
+    color: #1e3c72;
+}
+
+.filter-form input,
+.filter-form select {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.filter-form input:focus,
+.filter-form select:focus {
+    border-color: #1e3c72;
+    box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+.cars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.car-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.car-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.car-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.car-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.car-card:hover .car-image img {
+    transform: scale(1.05);
+}
+
+.car-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.car-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.car-card:hover .car-overlay {
+    opacity: 1;
+}
+
+.view-btn {
+    background: white;
+    color: #2c3e50;
+    padding: 10px 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.car-card:hover .view-btn {
+    transform: translateY(0);
+}
+
+.car-info {
+    padding: 20px;
+}
+
+.car-name {
+    margin-bottom: 15px;
+}
+
+.car-name a {
+    color: #2c3e50;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.car-name a:hover {
+    color: #1e3c72;
+}
+
+.car-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.stars {
+    color: #ffc107;
+}
+
+.rating-value {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.rating-count {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.car-details {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #7f8c8d;
+}
+
+.detail-item i {
+    color: #1e3c72;
+}
+
+.car-price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.price-label {
+    font-size: 0.9rem;
+}
+
+.price-value {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.price-currency {
+    font-size: 0.9rem;
+}
+
+.reserve-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.reserve-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+}
+
+.no-results i {
+    font-size: 3rem;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+.no-results h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.no-results p {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+.reset-filters {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1e3c72;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.reset-filters:hover {
+    background: #2a5298;
+    transform: translateY(-2px);
+}
+
+.pagination {
+    text-align: center;
+}
+
+.load-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: #2c3e50;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.load-more:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 767.98px) {
+    .car-list-section {
+        padding: 40px 0;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .filter-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .cars-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth scroll to filters
+    const filterForms = document.querySelectorAll('.filter-form');
+    filterForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your form submission logic here
+            this.querySelector('button[type="submit"]').classList.add('loading');
+        });
+    });
+    
+    // Add loading state to load more button
+    const loadMore = document.querySelector('.load-more');
+    if (loadMore) {
+        loadMore.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.classList.add('loading');
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>در حال بارگذاری...</span>';
+            
+            // Simulate loading
+            setTimeout(() => {
+                this.classList.remove('loading');
+                this.innerHTML = '<i class="fas fa-chevron-down"></i><span>نمایش خودروهای بیشتر</span>';
+            }, 2000);
+        });
+    }
+});
+</script>
 {% endblock %}
