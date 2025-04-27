@@ -1,41 +1,335 @@
 {% load static %}
 <!-- start double section -->
-<section class="doubleSection">
+<section class="double-section py-5">
     <div class="container">
-        <div class="row item">
-            <div class="col-md-5 text-center">
-                <img class="img" src="{% static 'images/index.png' %}" alt="خودرو">
-            </div>
-            <div class="col-md-7">
-                <h3 class="title">خودرو</h3>
-                <p class="text-justify">
-                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-                    چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی
-                    مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه
-                    درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری
-                    را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.
-                </p>
-                <a href="#" class="blue-btn rounded-border px-5" title="مشاهده">مشاهده</a>
-                <a href="#" class="blue-btn rounded-border px-5" title="نمایش">نمایش</a>
+        <!-- First Section -->
+        <div class="section-item">
+            <div class="row align-items-center">
+                <div class="col-lg-5">
+                    <div class="image-container">
+                        <img class="section-image" src="{% static 'images/index.png' %}" alt="خودرو">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h4>خودروهای لوکس</h4>
+                                <p>انتخاب از بین بهترین خودروها</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="content-wrapper">
+                        <div class="section-badge">خدمات خودرو</div>
+                        <h3 class="section-title">خودروهای ویژه</h3>
+                        <p class="section-text">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی
+                            مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                        </p>
+                        <div class="section-features">
+                            <div class="feature">
+                                <i class="fas fa-car"></i>
+                                <span>خودروهای لوکس</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>ضمانت کیفیت</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-headset"></i>
+                                <span>پشتیبانی 24/7</span>
+                            </div>
+                        </div>
+                        <div class="section-buttons">
+                            <a href="{% url 'car:car_list' %}" class="btn btn-primary">
+                                <i class="fas fa-eye me-2"></i>
+                                مشاهده خودروها
+                            </a>
+                            <a href="{% url 'car:car_list' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-calendar-check me-2"></i>
+                                رزرو آنلاین
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row item">
-            <div class="col-md-5 text-center">
-                <img class="img" src="{% static 'images/Untitled-8.png' %}" alt="خودرو">
-            </div>
-            <div class="col-md-7">
-                <h3 class="title">جاذبه های گردشگری</h3>
-                <p class="text-justify">
-                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
-                    چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی
-                    مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه
-                    درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری
-                    را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.
-                </p>
-                <a href="#" class="blue-btn rounded-border px-5" title="مشاهده">مشاهده</a>
-                <a href="#" class="blue-btn rounded-border px-5" title="نمایش">نمایش</a>
+
+        <!-- Second Section -->
+        <div class="section-item">
+            <div class="row align-items-center">
+                <div class="col-lg-7 order-lg-1 order-2">
+                    <div class="content-wrapper">
+                        <div class="section-badge">گردشگری</div>
+                        <h3 class="section-title">جاذبه های گردشگری</h3>
+                        <p class="section-text">
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
+                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی
+                            مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                        </p>
+                        <div class="section-features">
+                            <div class="feature">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <span>مکان‌های دیدنی</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-camera"></i>
+                                <span>عکاسی حرفه‌ای</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-route"></i>
+                                <span>تورهای ویژه</span>
+                            </div>
+                        </div>
+                        <div class="section-buttons">
+                            <a href="#" class="btn btn-primary">
+                                <i class="fas fa-eye me-2"></i>
+                                مشاهده جاذبه‌ها
+                            </a>
+                            <a href="#" class="btn btn-outline-primary">
+                                <i class="fas fa-calendar-check me-2"></i>
+                                رزرو تور
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 order-lg-2 order-1">
+                    <div class="image-container">
+                        <img class="section-image" src="{% static 'images/Untitled-8.png' %}" alt="جاذبه های گردشگری">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h4>جاذبه‌های دیدنی</h4>
+                                <p>کشف زیبایی‌های ایران</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 <!-- end double section -->
+
+<style>
+.double-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.double-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("{% static 'images/pattern-light.png' %}") repeat;
+    opacity: 0.05;
+}
+
+.section-item {
+    margin-bottom: 100px;
+    position: relative;
+}
+
+.section-item:last-child {
+    margin-bottom: 0;
+}
+
+.image-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.image-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.section-image {
+    width: 100%;
+    height: auto;
+    transition: transform 0.5s ease;
+}
+
+.image-container:hover .section-image {
+    transform: scale(1.1);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.image-container:hover .image-overlay {
+    opacity: 1;
+}
+
+.overlay-content {
+    color: white;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover .overlay-content {
+    transform: translateY(0);
+}
+
+.overlay-content h4 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.overlay-content p {
+    margin: 0;
+    opacity: 0.8;
+}
+
+.content-wrapper {
+    padding: 30px;
+    position: relative;
+}
+
+.section-badge {
+    display: inline-block;
+    background: #ff6b6b;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.section-title {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: #ff6b6b;
+    border-radius: 3px;
+}
+
+.section-text {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.section-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.feature:hover {
+    background: white;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.feature i {
+    color: #ff6b6b;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.feature span {
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.section-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-primary {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+    border-radius: 30px;
+    padding: 12px 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #ff5252;
+    border-color: #ff5252;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.btn-outline-primary {
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+    border-radius: 30px;
+    padding: 12px 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+}
+
+@media (max-width: 991.98px) {
+    .section-item {
+        margin-bottom: 50px;
+    }
+    
+    .content-wrapper {
+        padding: 20px 0;
+    }
+    
+    .section-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .section-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-outline-primary {
+        width: 100%;
+    }
+}
+</style>
