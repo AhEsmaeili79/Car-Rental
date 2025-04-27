@@ -1,96 +1,320 @@
 {% load static %}
 
-<section class="container my-5 py-md-5">
-    <p class="titleWithBg">پیشنهاد ما</p>
-    <div class="row">
-        {% for house in houses %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="hotelDetailCard">
-                        <div class="boxHeader">
-                            <a href="{% url 'car:car_detail' house.pk %}">
-                                <div class="img" style="background-image: url({{ house.image.url }})">
-                                    <div class="text">
-                                        <p class="m-0">{{ house.name }}</p>
-                                        <p class="m-0">{{ house.price_per_day }} تومان</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="detail row">
-                                <div class="col-3 px-1">
-                                    <img src="{% static 'images/icon/home.png' %}" alt="خودرو">
-                                    <p class="m-0">{{ house.area }} متر</p>
-                                </div>
-                                <div class="col-3 px-1">
-                                    <img src="{% static 'images/icon/home.png' %}" alt="خودرو">
-                                    <p class="m-0">{{ house.number_of_rooms }} اتاق</p>
-                                </div>
-                                <div class="col-3 px-1">
-                                    <img src="{% static 'images/icon/home.png' %}" alt="خودرو">
-                                    <p class="m-0">{{ house.number_of_parkings }} پارکینگ</p>
-                                </div>
-                                <div class="col-3 px-1">
-                                    <img src="{% static 'images/icon/home.png' %}" alt="خودرو">
-                                    <p class="m-0">{{ house.capacity }} نفر</p>
+<!--start offers section-->
+<section class="offers py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <div class="section-badge mb-3">پیشنهاد ما</div>
+            <h2 class="section-title">خودروهای ویژه</h2>
+            <p class="section-subtitle">انتخاب خودروی مناسب برای سفرهای خاص شما</p>
+        </div>
+        
+        <div class="row">
+            {% for car in cars %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="offer-card">
+                    <div class="offer-image">
+                        <img src="{{ car.image.url }}" alt="{{ car.name }}" class="img-fluid">
+                        <div class="offer-overlay">
+                            <div class="overlay-content">
+                                <a href="{% url 'car:car_detail' car.id %}" class="btn btn-light">
+                                    <i class="fas fa-eye me-2"></i>
+                                    مشاهده جزئیات
+                                </a>
+                                <div class="quick-info">
+                                    <span><i class="fas fa-gas-pump"></i> {{ car.fuel_type }}</span>
+                                    <span><i class="fas fa-calendar"></i> {{ car.year }}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="boxContent">
-                            <a href="{% url 'car:car_detail' house.pk %}" class="font-weight-bold h6 my-4 text-center d-block" title="{{ house.city }}">
-                                {{ house.city }}
-                            </a>
-                            <div class="mb-2 d-flex align-items-center justify-content-center">
-                                <div>
-                                    <div class="progress circle mx-auto" data-value="25">
-                                        <span class="progress-left">
-                                            <span class="progress-bar border-warning"></span>
-                                        </span>
-                                        <span class="progress-right">
-                                            <span class="progress-bar border-warning"></span>
-                                        </span>
-                                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                                            <div class="font-weight-bold">{{ house.rating }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="m-0">(امتیاز کاربران از 5)</p>
+                        <div class="offer-badge">
+                            <i class="fas fa-star"></i>
+                            {{ car.rating }}
+                        </div>
+                    </div>
+                    <div class="offer-content">
+                        <div class="offer-header">
+                            <h3 class="offer-title">{{ car.name }}</h3>
+                            <div class="offer-price">
+                                <span class="price">{{ car.price_per_day }}</span>
+                                <span class="currency">تومان/روز</span>
                             </div>
                         </div>
-                        <div class="boxFooter">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <button class="like-button"></button>
-                                </div>
-                                <div>
-                                    <div class="dropup share-btn px-2">
-                                        <button type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-share-alt"></i>
-                                        </button>
-                                        <div class="dropdown-menu" x-placement="top-start">
-                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در توییتر">
-                                                <i class="fab fa-twitter"></i>
-                                            </a>
-                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در فیسبوک">
-                                                <i class="fab fa-facebook-f"></i>
-                                            </a>
-                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در تلگرام">
-                                                <i class="fab fa-telegram-plane"></i>
-                                            </a>
-                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در اینستاگرام">
-                                                <i class="fab fa-instagram"></i>
-                                            </a>
-                                            <a class="dropdown-item" href="#" title="اشتراک گذاری در لینکدین">
-                                                <i class="fab fa-linkedin-in"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="offer-features">
+                            <div class="feature">
+                                <i class="fas fa-car"></i>
+                                <span>{{ car.brand }}</span>
                             </div>
-                            <div>
-                                <a href="{% url 'car:car_detail' house.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                            <div class="feature">
+                                <i class="fas fa-cogs"></i>
+                                <span>{{ car.transmission }}</span>
                             </div>
+                            <div class="feature">
+                                <i class="fas fa-users"></i>
+                                <span>{{ car.capacity }} نفر</span>
+                            </div>
+                        </div>
+                        <div class="offer-footer">
+                            <a href="{% url 'car:car_detail' car.id %}" class="btn btn-primary w-100">
+                                <i class="fas fa-shopping-cart me-2"></i>
+                                رزرو خودرو
+                            </a>
                         </div>
                     </div>
                 </div>
-        {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </section>
+<!--end offers section-->
+
+<style>
+.offers {
+    background-color: #f8f9fa;
+    position: relative;
+    overflow: hidden;
+}
+
+.offers::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("{% static 'images/pattern-light.png' %}") repeat;
+    opacity: 0.05;
+}
+
+.section-badge {
+    display: inline-block;
+    background: #ff6b6b;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: #ff6b6b;
+    border-radius: 3px;
+}
+
+.section-subtitle {
+    color: #7f8c8d;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.offer-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.offer-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.offer-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.offer-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.offer-card:hover .offer-image img {
+    transform: scale(1.1);
+}
+
+.offer-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.offer-badge i {
+    color: #f1c40f;
+}
+
+.offer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.offer-card:hover .offer-overlay {
+    opacity: 1;
+}
+
+.overlay-content {
+    text-align: center;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.offer-card:hover .overlay-content {
+    transform: translateY(0);
+}
+
+.quick-info {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.quick-info span {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.offer-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.offer-header {
+    margin-bottom: 15px;
+}
+
+.offer-title {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.offer-price {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.price {
+    color: #e74c3c;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.currency {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.offer-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature:hover {
+    background: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.feature i {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.feature span {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.offer-footer {
+    margin-top: auto;
+}
+
+.btn-primary {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+    border-radius: 30px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #ff5252;
+    border-color: #ff5252;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.btn-light {
+    cursor: pointer;
+}
+
+@media (max-width: 767.98px) {
+    .offer-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>

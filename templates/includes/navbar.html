@@ -1,0 +1,292 @@
+{% load static %}
+
+<!--start navbar-->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="لوگو" class="logo">
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">
+                        <i class="fas fa-home me-1"></i>
+                        خانه
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-car me-1"></i>
+                        خودروها
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'car:car_list' %}">
+                            <i class="fas fa-list me-2"></i>
+                            لیست خودروها
+                        </a>
+                        <a class="dropdown-item" href="{% url 'car:car_list' %}?category=luxury">
+                            <i class="fas fa-crown me-2"></i>
+                            خودروهای لوکس
+                        </a>
+                        <a class="dropdown-item" href="{% url 'car:car_list' %}?category=economy">
+                            <i class="fas fa-coins me-2"></i>
+                            خودروهای اقتصادی
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reservations:reservation_list' %}">
+                        <i class="fas fa-calendar-check me-1"></i>
+                        رزروها
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">
+                        <i class="fas fa-info-circle me-1"></i>
+                        درباره ما
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">
+                        <i class="fas fa-envelope me-1"></i>
+                        تماس با ما
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="navbar-actions">
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <div class="user-avatar">
+                            {% if user.profile.avatar %}
+                                <img src="{{ user.profile.avatar.url }}" alt="پروفایل">
+                            {% else %}
+                                <i class="fas fa-user"></i>
+                            {% endif %}
+                        </div>
+                        <span class="user-name">{{ user.get_full_name }}</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="{% url 'users:profile' %}">
+                            <i class="fas fa-user me-2"></i>
+                            پروفایل
+                        </a>
+                        <a class="dropdown-item" href="{% url 'reservations:reservation_list' %}">
+                            <i class="fas fa-calendar-check me-2"></i>
+                            رزروهای من
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'users:logout' %}">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            خروج
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'users:login' %}" class="btn btn-outline-light me-2">
+                    <i class="fas fa-sign-in-alt me-1"></i>
+                    ورود
+                </a>
+                <a href="{% url 'users:register' %}" class="btn btn-primary">
+                    <i class="fas fa-user-plus me-1"></i>
+                    ثبت نام
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+<!--end navbar-->
+
+<style>
+.navbar {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    padding: 15px 0;
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.scrolled .nav-link {
+    color: #2c3e50 !important;
+}
+
+.navbar.scrolled .dropdown-menu {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    height: 40px;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled .logo {
+    filter: brightness(0);
+}
+
+.nav-link {
+    color: white !important;
+    font-weight: 500;
+    padding: 8px 15px !important;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.nav-link i {
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover i {
+    transform: scale(1.2);
+}
+
+.dropdown-menu {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+.dropdown-item {
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.dropdown-item i {
+    transition: transform 0.3s ease;
+}
+
+.dropdown-item:hover i {
+    transform: scale(1.2);
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-left: 10px;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-avatar i {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.user-name {
+    color: white;
+    font-weight: 500;
+}
+
+.btn-outline-light {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background: #ff6b6b;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #ff5252;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        margin-top: 10px;
+    }
+    
+    .nav-link {
+        color: #2c3e50 !important;
+        padding: 10px 0 !important;
+    }
+    
+    .dropdown-menu {
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .dropdown-item {
+        color: #2c3e50 !important;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const navbar = document.querySelector('.navbar');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+});
+</script> 

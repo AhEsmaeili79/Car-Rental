@@ -2,21 +2,27 @@
 
 <!--start intro section-->
 <section class="intro">
+    <div class="intro-bg">
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+        <div class="bg-shape shape-3"></div>
+    </div>
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="intro-content">
                     <div class="intro-badge mb-3">
+                        <i class="fas fa-star me-2"></i>
                         <span>بهترین خدمات اجاره خودرو</span>
                     </div>
                     <h1 class="text-white mb-4">اجاره خودرو در سراسر ایران</h1>
                     <p class="text-white mb-5">با ما به راحتی و با اطمینان خودرو مورد نظر خود را اجاره کنید. بیش از 1000 خودرو در سراسر کشور</p>
                     <div class="d-flex flex-wrap gap-3">
-                        <a href="{% url 'car:car_list' %}" class="btn btn-primary btn-lg">
+                        <a href="{% url 'car:car_list' %}" class="btn btn-primary btn-lg glass-effect">
                             <i class="fas fa-car me-2"></i>
                             مشاهده خودروها
                         </a>
-                        <a href="{% url 'car:car_list' %}" class="btn btn-outline-light btn-lg">
+                        <a href="{% url 'car:car_list' %}" class="btn btn-outline-light btn-lg glass-effect">
                             <i class="fas fa-calendar-check me-2"></i>
                             رزرو آنلاین
                         </a>
@@ -25,18 +31,27 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-car"></i>
+                                    </div>
                                     <h3>1000+</h3>
                                     <p>خودرو</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
                                     <h3>50+</h3>
                                     <p>شهر</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
                                     <h3>10K+</h3>
                                     <p>مشتری راضی</p>
                                 </div>
@@ -47,10 +62,23 @@
             </div>
             <div class="col-lg-6">
                 <div class="intro-image">
-                    <img src="{% static 'images/hotel.svg' %}" alt="اجاره خودرو" class="img-fluid rounded shadow-lg">
-                    <div class="floating-badge">
-                        <i class="fas fa-star"></i>
-                        <span>امتیاز 4.8 از 5</span>
+                    <div class="image-wrapper">
+                        <img src="{% static 'images/hotel.svg' %}" alt="اجاره خودرو" class="img-fluid">
+                        <div class="floating-badge">
+                            <i class="fas fa-star"></i>
+                            <span>امتیاز 4.8 از 5</span>
+                        </div>
+                    </div>
+                    <div class="floating-elements">
+                        <div class="element element-1">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="element element-2">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="element element-3">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,42 +96,44 @@
     overflow: hidden;
 }
 
-.intro::before {
-    content: '';
+.intro-bg {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url("{% static 'images/pattern.png' %}") repeat;
-    opacity: 0.1;
-    animation: patternMove 20s linear infinite;
+    overflow: hidden;
 }
 
-@keyframes patternMove {
-    0% { background-position: 0 0; }
-    100% { background-position: 100px 100px; }
-}
-
-.intro-shape {
+.bg-shape {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: white;
-    clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
 }
 
-.intro-badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 20px;
-    border-radius: 30px;
-    color: white;
-    font-size: 0.9rem;
-    backdrop-filter: blur(5px);
-    animation: fadeInUp 1s ease;
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    right: -100px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 50px;
+    left: -50px;
+    animation: float 8s ease-in-out infinite reverse;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 100px;
+    right: 50px;
+    animation: float 7s ease-in-out infinite;
 }
 
 .intro-content {
@@ -112,29 +142,32 @@
     animation: fadeInLeft 1s ease;
 }
 
-.intro-image {
-    position: relative;
-    z-index: 1;
-    transform: translateY(20px);
-    animation: float 3s ease-in-out infinite;
-}
-
-.floating-badge {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: white;
-    padding: 10px 20px;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    display: flex;
+.intro-badge {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    animation: fadeIn 1s ease 0.5s both;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 20px;
+    border-radius: 30px;
+    color: white;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+    animation: fadeInUp 1s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.floating-badge i {
+.intro-badge i {
     color: #f1c40f;
+}
+
+.glass-effect {
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.glass-effect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .intro-stats {
@@ -142,11 +175,33 @@
     padding: 20px;
     border-radius: 15px;
     backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .stat-item {
     text-align: center;
     color: white;
+    padding: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 1.2rem;
+    color: #ff6b6b;
 }
 
 .stat-item h3 {
@@ -161,10 +216,77 @@
     opacity: 0.8;
 }
 
+.intro-image {
+    position: relative;
+    z-index: 1;
+}
+
+.image-wrapper {
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+}
+
+.floating-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 1s ease 0.5s both;
+}
+
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.element {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.element-1 {
+    top: 20%;
+    left: 10%;
+    animation: float 4s ease-in-out infinite;
+}
+
+.element-2 {
+    top: 50%;
+    right: 15%;
+    animation: float 5s ease-in-out infinite reverse;
+}
+
+.element-3 {
+    bottom: 20%;
+    left: 20%;
+    animation: float 6s ease-in-out infinite;
+}
+
 @keyframes float {
-    0% { transform: translateY(20px); }
-    50% { transform: translateY(0); }
-    100% { transform: translateY(20px); }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
 }
 
 @keyframes fadeInUp {
@@ -213,5 +335,15 @@
 .btn-outline-light:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.intro-shape {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: white;
+    clip-path: polygon(0 100%, 100% 0, 100% 100%);
 }
 </style>
