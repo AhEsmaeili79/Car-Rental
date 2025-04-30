@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load car_tags %}
 {% block title %}House Detail{% endblock %}
 
 {% block content %}
@@ -85,108 +86,78 @@
                             <div class="col-md-7">
                                 <p class="pr-3 mb-5 font-weight-bold">خلاصه امتیاز</p>
                                 <div>
+                                    {% for rating in "54321"|make_list %}
                                     <div class="row mb-2">
                                         <div class="col-2 p-0">
                                             <i class="far fa-star"></i>
-                                            <span>5</span>
+                                            <span>{{ rating }}</span>
                                         </div>
                                         <div class="col-8 px-1">
                                             <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 65%"
-                                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
-                                                </div>
+                                                {% with rating_count=reviews|length %}
+                                                {% if rating_count > 0 %}
+                                                    {% with star_count=reviews|dictsortreversed:"rating"|filter_rating:rating|length %}
+                                                    {% widthratio star_count rating_count 100 as percentage %}
+                                                    <div class="progress-bar" role="progressbar" style="width: {{ percentage }}%"
+                                                        aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    {% endwith %}
+                                                {% else %}
+                                                    <div class="progress-bar" role="progressbar" style="width: 0%"
+                                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                {% endif %}
+                                                {% endwith %}
                                             </div>
                                         </div>
                                         <div class="col-2 p-0 text-left">
-                                            <span>65%</span>
+                                            {% with rating_count=reviews|length %}
+                                            {% if rating_count > 0 %}
+                                                {% with star_count=reviews|dictsortreversed:"rating"|filter_rating:rating|length %}
+                                                {% widthratio star_count rating_count 100 as percentage %}
+                                                <span>{{ percentage }}%</span>
+                                                {% endwith %}
+                                            {% else %}
+                                                <span>0%</span>
+                                            {% endif %}
+                                            {% endwith %}
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-2 p-0">
-                                            <i class="far fa-star"></i>
-                                            <span>4</span>
-                                        </div>
-                                        <div class="col-8 px-1">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 50%"
-                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 p-0 text-left">
-                                            <span>50%</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-2 p-0">
-                                            <i class="far fa-star"></i>
-                                            <span>3</span>
-                                        </div>
-                                        <div class="col-8 px-1">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 65%"
-                                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 p-0 text-left">
-                                            <span>65%</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-2 p-0">
-                                            <i class="far fa-star"></i>
-                                            <span>2</span>
-                                        </div>
-                                        <div class="col-8 px-1">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 40%"
-                                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 p-0 text-left">
-                                            <span>40%</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-2 p-0">
-                                            <i class="far fa-star"></i>
-                                            <span>1</span>
-                                        </div>
-                                        <div class="col-8 px-1">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 65%"
-                                                    aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 p-0 text-left">
-                                            <span>65%</span>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                                 <div class="row my-5 d-flex align-items-center">
                                     <div class="col-md-6 px-1 d-flex align-items-center justify-content-center">
-                                        <p class="h1 m-1 font-weight-bolder">4.1</p>
+                                        <p class="h1 m-1 font-weight-bolder">{{ mean_rating|floatformat:1 }}</p>
                                         <div>
-                                            <p class="mb-1">خوب</p>
+                                            <p class="mb-1">
+                                                {% if mean_rating >= 4.5 %}عالی
+                                                {% elif mean_rating >= 4.0 %}خیلی خوب
+                                                {% elif mean_rating >= 3.0 %}خوب
+                                                {% elif mean_rating >= 2.0 %}متوسط
+                                                {% else %}ضعیف{% endif %}
+                                            </p>
                                             <div>
-                                                <i class="far fa-star"></i>
-                                                <i class="fas fa-star yellow-text"></i>
-                                                <i class="fas fa-star yellow-text"></i>
-                                                <i class="fas fa-star yellow-text"></i>
-                                                <i class="fas fa-star yellow-text"></i>
+                                                {% for i in "12345"|make_list %}
+                                                    {% if forloop.counter <= mean_rating %}
+                                                        <i class="fas fa-star yellow-text"></i>
+                                                    {% else %}
+                                                        <i class="far fa-star"></i>
+                                                    {% endif %}
+                                                {% endfor %}
                                             </div>
-                                            <p>120 نظر</p>
+                                            <p>{{ reviews|length }} نظر</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6 px-1 text-center">
-                                    <a class="blue-btn rounded-border my-1 px-5" data-toggle="pill" href="#v-pills-comments" role="tab"
-                                        aria-controls="v-pills-comments" aria-selected="false">ثبت نظر</a>
+                                        {% if user.is_authenticated %}
+                                            <a class="blue-btn rounded-border my-1 px-5" data-toggle="pill" href="#v-pills-comments" role="tab"
+                                                aria-controls="v-pills-comments" aria-selected="false">ثبت نظر</a>
+                                        {% else %}
+                                            <a class="blue-btn rounded-border my-1 px-5" href="{% url 'login' %}?next={{ request.path }}">
+                                                برای ثبت نظر وارد شوید
+                                            </a>
+                                        {% endif %}
                                     </div>
-                                    
-                                    
                                 </div>
                             </div>
                             <div class="col-md-5 text-center">
@@ -334,27 +305,27 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="pickup_date">تاریخ تحویل:</label>
-                        <input type="date" name="pickup_date" id="pickup_date" class="form-control" required>
+                        <input data-jdp name="arrive_date" data-jdp-min-date="today" id="pickup_date" data-jdp-only-date class="form-control"  required autocomplete="off"/>
                     </div>
                     <div class="form-group">
                         <label for="return_date">تاریخ بازگشت:</label>
-                        <input type="date" name="return_date" id="return_date" class="form-control" required>
+                        <input data-jdp name="exit_date" data-jdp-min-date="today" id="return_date"  data-jdp-only-date class="form-control"  required autocomplete="off"/>
                     </div>
                     <div class="form-group">
                         <label for="number_of_passengers">تعداد مسافران:</label>
-                        <input type="number" name="number_of_passengers" id="number_of_passengers" class="form-control" min="1" required>
+                        <input type="number" name="number_of_passengers" id="id_count_of_passengers" id="number_of_passengers" class="form-control" min="1" placeholder="فقط عدد" required autocomplete="off">
                     </div>
                     <button type="submit" class="btn btn-success mt-3">رزرو</button>
                 </form>
+                
             </div>
-        {% else %}
-            <div class="center">
-                <p>لطفا برای رزرو <a href="{% url 'login' %}">وارد </a>شوید.</p>
-            </div>
-        {% endif %}
-    </div>
+            {% else %}
+                <div class="center">
+                    <p>لطفا برای رزرو <a href="{% url 'login' %}">وارد </a>شوید.</p>
+                </div>
+            {% endif %}
+        </div>
 </div>
-
 <!-- نظرات -->
 
 <div class="container contentForTab" for="v-pills-comments-tab">
