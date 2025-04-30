@@ -1665,7 +1665,7 @@ footer .footer-link .link:hover {
 
 .input-wrapper i {
     position: absolute;
-    right: 16px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
     color: #1e3c72;
@@ -1685,7 +1685,7 @@ footer .footer-link .link:hover {
 .input-wrapper input,
 .input-wrapper select {
     width: 100%;
-    padding: 24px 45px 8px 16px;
+    padding: 24px 16px 8px 45px;
     border: 2px solid #e9ecef;
     border-radius: 12px;
     background: transparent;
@@ -1695,7 +1695,7 @@ footer .footer-link .link:hover {
 }
 
 .search-input-group .input-wrapper input {
-    padding: 0 45px;
+    padding: 0 16px 0 45px;
     height: 48px;
 }
 
@@ -1762,37 +1762,6 @@ footer .footer-link .link:hover {
     }
 }
 
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    .search-filters {
-        background: #2d3436;
-    }
-
-    .input-wrapper {
-        background: #353b48;
-    }
-
-    .input-wrapper:hover {
-        background: #2f3640;
-    }
-
-    .input-wrapper input,
-    .input-wrapper select {
-        color: #f5f6fa;
-    }
-
-    .input-wrapper label {
-        color: #dcdde1;
-    }
-
-    .input-wrapper i {
-        color: #dcdde1;
-    }
-
-    .input-wrapper input::placeholder {
-        color: #dcdde1;
-    }
-}
 
 .sort-options {
     display: flex;
@@ -2128,4 +2097,43 @@ legend {
 .delete-btn:hover {
     background-color: #d1615f;
     color: #ccc; 
+}
+
+.search-button-wrapper {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.search-button {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.search-button:hover {
+    background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(30, 60, 114, 0.2);
+}
+
+.search-button i {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .search-button {
+        width: 100%;
+        padding: 12px 20px;
+    }
 }
