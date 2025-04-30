@@ -18,7 +18,7 @@
                 <div class="search-input-group">
                     <div class="input-wrapper">
                         <i class="fas fa-search"></i>
-                        <input type="text" name="search" placeholder="جستجوی خودرو..." class="search-input">
+                        <input type="text" name="search" placeholder="جستجوی خودرو..." class="search-input" value="{{ request.GET.search }}">
                     </div>
                 </div>
                 
@@ -37,7 +37,7 @@
 
                     <div class="input-wrapper">
                         <select name="sort_by" id="id_sort_by">
-                            <option value="-created_at">جدیدترین</option>
+                            <option value="-id">جدیدترین</option>
                             <option value="price_per_day">قیمت (پایین به بالا)</option>
                             <option value="-price_per_day">قیمت (بالا به پایین)</option>
                         </select>
@@ -257,6 +257,34 @@
 .filter-form select:focus {
     border-color: #1e3c72;
     box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+.search-button-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.search-button {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+}
+
+.search-button i {
+    font-size: 0.9rem;
 }
 
 .cars-grid {
@@ -515,6 +543,10 @@
     
     .filter-inputs {
         grid-template-columns: 1fr;
+    }
+    
+    .search-button-wrapper {
+        flex-direction: column;
     }
     
     .cars-grid {

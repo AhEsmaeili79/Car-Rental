@@ -8,26 +8,53 @@ from .forms import  CarForm, ReviewForm
 from django.db.models import Avg
 
 def car_list(request):
-    cars = Car.objects.all()
+    cars = Car.objects.filter(is_active=True)
 
+    # Search filter
+    if 'search' in request.GET:
+        search = request.GET['search']
+        if search:
+            cars = cars.filter(name__icontains=search)
+
+    # Price filter
     if 'price' in request.GET:
         price = request.GET['price']
         if price:
             cars = cars.filter(price_per_day__lte=price)
 
+    # Location filter
     if 'location' in request.GET:
         location = request.GET['location']
         if location:
             cars = cars.filter(city__icontains=location)
 
-    sort_by = request.GET.get('sort_by', '-id') 
-    if sort_by not in ['name', 'city', 'price_per_day', 'number_of_rooms', 'area']:
-        sort_by = '-id'  
+    # With driver filter
+    if 'with_driver' in request.GET:
+        with_driver = request.GET['with_driver']
+        if with_driver:
+            cars = cars.filter(with_driver=with_driver == 'true')
+
+    # Capacity filter
+    if 'capacity' in request.GET:
+        capacity = request.GET['capacity']
+        if capacity:
+            cars = cars.filter(capacity__gte=capacity)
+
+    # Sorting
+    sort_by = request.GET.get('sort_by', '-id')  # Default sort by newest (using id)
+    valid_sort_fields = [
+        'name', 'city', 'price_per_day', 'capacity', 
+        '-id', '-price_per_day', '-name', '-city', '-capacity'
+    ]
+    
+    if sort_by not in valid_sort_fields:
+        sort_by = '-id'  # Default to newest if invalid sort field
 
     cars = cars.order_by(sort_by)
 
     context = {
         'cars': cars,
+        'current_filters': request.GET,  # Pass current filters to template
     }
     return render(request, 'car/car_list.html', context)
 
