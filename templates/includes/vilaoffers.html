@@ -12,44 +12,318 @@
             <div class="owl-carousel 4-col-owl">
                 {% for car in cars %}
                     <div class="suiteCard">
-                        <!-- Static image path -->
-                        <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
-                        <div class="px-1 d-flex align-items-center justify-content-between my-3">
-                            <a href="#" class="font-weight-bold m-0 d-block" title="{{ car.name }}">{{ car.name }}</a>
-                            <div class="mx-1">
-                                <!-- Add stars for rating -->
-                                {% for i in car.rating %}
-                                    <i class="fas fa-star {% if i <= car.rating %}yellow-text{% endif %}"></i>
-                                {% endfor %}
+                        <div class="card-image-wrapper">
+                            <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
+                            <div class="card-overlay">
+                                <span class="car-type">{{ car.type }}</span>
+                                <span class="car-price">{{ car.price }} تومان/روز</span>
                             </div>
                         </div>
-                        <div class="px-1 d-flex align-items-center justify-content-between mt-3 mb-1">
-                            <div>
-                                <a href="{% url 'car:car_detail' car.id %}" class="blue-btn rounded-border" title="نمایش اطلاعات">نمایش اطلاعات</a>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div>
-                                    <div class="progress circle mx-auto" data-value="{{ car.rating }}">
-                                        <span class="progress-left">
-                                            <span class="progress-bar border-warning"></span>
-                                        </span>
-                                        <span class="progress-right">
-                                            <span class="progress-bar border-warning"
-                                                style="transform: rotate({{ car.rating|add:"90" }}deg);"></span>
-                                        </span>
-                                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                                            <div class="font-weight-bold">{{ car.rating }}</div>
-                                        </div>
-                                    </div>
+                        <div class="card-content">
+                            <div class="car-header">
+                                <a href="#" class="car-title" title="{{ car.name }}">{{ car.name }}</a>
+                                <div class="rating-badge">
+                                    <i class="fas fa-star"></i>
+                                    <span>{{ car.rating }}</span>
                                 </div>
-                                <p class="m-0">(امتیاز کاربران از 5)</p>
+                            </div>
+                            
+                            <div class="car-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span class="detail-label">سال ساخت</span>
+                                    <span class="detail-value">{{ car.model_year }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span class="detail-label">نوع سوخت</span>
+                                    <span class="detail-value">{{ car.fuel_type }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-cogs"></i>
+                                    <span class="detail-label">گیربکس</span>
+                                    <span class="detail-value">{{ car.transmission }}</span>
+                                </div>
+                            </div>
+
+                            <div class="car-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-car-side"></i>
+                                    <span>بدون راننده</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-snowflake"></i>
+                                    <span>کولر</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-music"></i>
+                                    <span>سیستم صوتی</span>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <a href="{% url 'car:car_detail' car.id %}" class="blue-btn" title="نمایش اطلاعات">
+                                    <i class="fas fa-info-circle"></i>
+                                    نمایش اطلاعات
+                                </a>
+                                <div class="user-rating">
+                                    <div class="rating-stars">
+                                        {% for i in "12345"|make_list %}
+                                            <i class="fas fa-star {% if forloop.counter <= car.rating %}active{% endif %}"></i>
+                                        {% endfor %}
+                                    </div>
+                                    <span class="rating-count">({{ car.rating_count }} نظر)</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
-        <!--end owl-layout section-->
     </div>
 </section>
-<!--end suite carousel section-->
+
+<style>
+.owl-carousel-wrapper {
+    padding: 2rem 0;
+    background: #f8f9fa;
+}
+
+.suiteCard {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.suiteCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-image-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image-wrapper img {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.suiteCard:hover .card-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.car-type, .car-price {
+    font-size: 0.9rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.car-type {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.car-price {
+    background: #007bff;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.car-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.car-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.rating-badge {
+    background: #f8f9fa;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rating-badge i {
+    color: #ffc107;
+}
+
+.car-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 15px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.detail-item i {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-bottom: 5px;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.detail-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.car-features {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    margin: 10px 0;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.feature-item i {
+    color: #28a745;
+    font-size: 1.1rem;
+}
+
+.feature-item span {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.blue-btn {
+    background: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.blue-btn:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.user-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.rating-stars i {
+    color: #ddd;
+    font-size: 0.9rem;
+}
+
+.rating-stars i.active {
+    color: #ffc107;
+}
+
+.rating-count {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 3px;
+}
+
+.owl-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    padding: 0 20px;
+}
+
+.owl-prev, .owl-next {
+    background: rgba(255, 255, 255, 0.9) !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    pointer-events: auto;
+    z-index: 10;
+    position: relative;
+}
+
+.owl-prev {
+    left: 0;
+}
+
+.owl-next {
+    right: 0;
+}
+
+.owl-carousel .owl-stage-outer {
+    padding: 0 40px;
+}
+</style>
+

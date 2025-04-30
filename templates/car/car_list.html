@@ -15,47 +15,34 @@
 
         <div class="search-filters">
             <div class="filters-container">
-                <form class="search-form" method="get">
-                    <div class="form-group">
+                <div class="search-input-group">
+                    <div class="input-wrapper">
                         <i class="fas fa-search"></i>
-                        <input type="text" name="search" placeholder="جستجوی خودرو..." class="form-control">
+                        <input type="text" name="search" placeholder="جستجوی خودرو..." class="search-input">
                     </div>
-                </form>
+                </div>
                 
-                <div class="filter-group">
-                    <form class="filter-form" method="get">
-                        <div class="form-group">
-                            <label for="id_price">
-                                <i class="fas fa-tag"></i>
-                                <span>حداکثر قیمت</span>
-                            </label>
-                            <input type="number" name="price" id="id_price" min="0" step="100" class="form-control" placeholder="مثلاً 500000">
-                        </div>
-                    </form>
+                <div class="filter-inputs">
+                    <div class="input-wrapper">
+                        <i class="fas fa-tag"></i>
+                        <input type="number" name="price" id="id_price" min="0" step="100" placeholder="حداکثر قیمت">
+                        <label for="id_price">قیمت</label>
+                    </div>
 
-                    <form class="filter-form" method="get">
-                        <div class="form-group">
-                            <label for="id_location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>شهر</span>
-                            </label>
-                            <input type="text" name="location" id="id_location" class="form-control" placeholder="نام شهر">
-                        </div>
-                    </form>
+                    <div class="input-wrapper">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" name="location" id="id_location" placeholder="نام شهر">
+                        <label for="id_location">شهر</label>
+                    </div>
 
-                    <form class="filter-form" method="get">
-                        <div class="form-group">
-                            <label for="id_sort_by">
-                                <i class="fas fa-sort"></i>
-                                <span>مرتب‌سازی</span>
-                            </label>
-                            <select name="sort_by" id="id_sort_by" class="form-control">
-                                <option value="-created_at">جدیدترین</option>
-                                <option value="price_per_day">قیمت (پایین به بالا)</option>
-                                <option value="-price_per_day">قیمت (بالا به پایین)</option>
-                            </select>
-                        </div>
-                    </form>
+                    <div class="input-wrapper">
+                        <select name="sort_by" id="id_sort_by">
+                            <option value="-created_at">جدیدترین</option>
+                            <option value="price_per_day">قیمت (پایین به بالا)</option>
+                            <option value="-price_per_day">قیمت (بالا به پایین)</option>
+                        </select>
+                        <label for="id_sort_by">مرتب‌سازی</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -199,35 +186,35 @@
     margin-bottom: 40px;
 }
 
-.search-form {
+.search-input-group {
     margin-bottom: 20px;
 }
 
-.search-form .form-group {
+.input-wrapper {
     position: relative;
 }
 
-.search-form i {
+.input-wrapper i {
     position: absolute;
-    right: 15px;
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
     color: #7f8c8d;
 }
 
-.search-form input {
+.search-input {
     padding-right: 45px;
     border-radius: 10px;
     border: 2px solid #e9ecef;
     transition: all 0.3s ease;
 }
 
-.search-form input:focus {
+.search-input:focus {
     border-color: #1e3c72;
     box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
 }
 
-.filter-group {
+.filter-inputs {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
@@ -519,7 +506,7 @@
         font-size: 2rem;
     }
     
-    .filter-group {
+    .filter-inputs {
         grid-template-columns: 1fr;
     }
     
