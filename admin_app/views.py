@@ -21,6 +21,18 @@ def admin_panel(request):
     total_orders = Order.objects.count()
     pending_renter_requests = User.objects.filter(role_change_requested=True).count()
 
+    # Get all users
+    users = User.objects.all()
+
+    # Get all cars
+    cars = Car.objects.all().order_by('-id')  # Order by id descending
+
+    # Get all orders
+    orders = Order.objects.all().order_by('-created_at')
+
+    # Get renter requests
+    renter_requests = User.objects.filter(role_change_requested=True)
+
     # Get recent activities (last 7 days)
     recent_activities = []
     for order in Order.objects.filter(created_at__gte=timezone.now() - timedelta(days=7)):
@@ -37,6 +49,10 @@ def admin_panel(request):
         'total_orders': total_orders,
         'pending_renter_requests': pending_renter_requests,
         'recent_activities': recent_activities[:10],  # Show only last 10 activities
+        'users': users,
+        'cars': cars,
+        'orders': orders,
+        'renter_requests': renter_requests,
     }
 
     if request.method == 'POST':
@@ -157,7 +173,7 @@ def admin_cars(request):
     search_query = request.GET.get('search', '')
     status_filter = request.GET.get('status_filter', '')
 
-    cars = Car.objects.all().order_by('-created_at')
+    cars = Car.objects.all().order_by('-id')  # Order by id descending
 
     if search_query:
         cars = cars.filter(name__icontains=search_query)
@@ -204,6 +220,31 @@ def car_detail(request, car_id):
         'car': car,
     }
     return render(request, 'admin/car_detail.html', context)
+
+@login_required
+def car_update(request, pk):
+    car = get_object_or_404(Car, pk=pk)
+    
+    # Check if the user is either the car owner or a superuser
+    if not (request.user == car.user or request.user.is_superuser):
+        return redirect('home')
+    
+    if request.method == 'POST':
+        # Update car fields
+        car.name = request.POST.get('name')
+        car.model = request.POST.get('model')
+        car.daily_price = request.POST.get('daily_price')
+        car.description = request.POST.get('description')
+        
+        # Handle image upload if provided
+        if 'image' in request.FILES:
+            car.image = request.FILES['image']
+            
+        car.save()
+        messages.success(request, 'خودرو با موفقیت بروزرسانی شد.')
+        return redirect('renter_cars')
+        
+    return render(request, 'admin/car_update.html', {'car': car})
 
 @login_required
 def renter_requests(request):

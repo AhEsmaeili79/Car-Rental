@@ -26,7 +26,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5>تعداد کل کاربران</h5>
-                                <h3>{{ total_users }}</h3>
+                                <h3>{{ total_users|default:"0" }}</h3>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5>تعداد کل خودروها</h5>
-                                <h3>{{ total_cars }}</h3>
+                                <h3>{{ total_cars|default:"0" }}</h3>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5>تعداد کل سفارش‌ها</h5>
-                                <h3>{{ total_orders }}</h3>
+                                <h3>{{ total_orders|default:"0" }}</h3>
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5>درخواست‌های در انتظار</h5>
-                                <h3>{{ pending_renter_requests }}</h3>
+                                <h3>{{ pending_renter_requests|default:"0" }}</h3>
                             </div>
                         </div>
                     </div>
@@ -61,176 +61,189 @@
                 <!-- Users Management -->
                 <div class="tab-pane fade show active" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
                     <p class="titleWithBg">مدیریت کاربران</p>
-                    <ul>
-                        <li>
-                            <h3>لیست کاربران</h3>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>نام کاربری</th>
-                                        <th>ایمیل</th>
-                                        <th>نقش</th>
-                                        <th>وضعیت</th>
-                                        <th>اقدامات</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for user in users %}
-                                    <tr>
-                                        <td>{{ user.username }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.get_role_display }}</td>
-                                        <td>
-                                            <form method="post" action="{% url 'toggle_user_status' user.id %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-{{ user.is_active|yesno:'success,danger' }}">{{ user.is_active|yesno:"غیرفعال , فعال " }}</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form method="post" action="{% url 'admin_delete_user' user.id %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">حذف</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </li>
-                    </ul>
+                    <div class="table-responsive">
+                        {% if users %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>نام کاربری</th>
+                                    <th>ایمیل</th>
+                                    <th>نقش</th>
+                                    <th>وضعیت</th>
+                                    <th>اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.get_role_display }}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'toggle_user_status' user.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-{{ user.is_active|yesno:'success,danger' }}">
+                                                {{ user.is_active|yesno:"غیرفعال,فعال" }}
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{% url 'admin_delete_user' user.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p class="text-center">هیچ کاربری یافت نشد.</p>
+                        {% endif %}
+                    </div>
                 </div>
 
                 <!-- Cars Management -->
                 <div class="tab-pane fade" id="v-pills-cars" role="tabpanel" aria-labelledby="v-pills-cars-tab">
                     <p class="titleWithBg">مدیریت خودروها</p>
-                    <ul>
-                        <li>
-                            <h3>لیست خودروها</h3>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>نام</th>
-                                        <th>مدل</th>
-                                        <th>قیمت روزانه</th>
-                                        <th>وضعیت</th>
-                                        <th>اقدامات</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for car in cars %}
-                                    <tr>
-                                        <td><a href="{% url 'car_detail' car.pk %}">{{ car.name }}</a></td>
-                                        <td>{{ car.model }}</td>
-                                        <td>{{ car.daily_price }} تومان</td>
-                                        <td>
-                                            <form method="post" action="{% url 'toggle_car_status' car.id %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-{{ car.is_active|yesno:'success,danger' }}">{{ car.is_active|yesno:"غیرفعال , فعال " }}</button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form method="post" action="{% url 'admin_delete_car' car.id %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">حذف</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </li>
-                    </ul>
+                    <div class="table-responsive">
+                        {% if cars %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>نام</th>
+                                    <th>مدل</th>
+                                    <th>قیمت روزانه</th>
+                                    <th>وضعیت</th>
+                                    <th>اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for car in cars %}
+                                <tr>
+                                    <td><a href="{% url 'car_detail' car.pk %}">{{ car.name }}</a></td>
+                                    <td>{{ car.model }}</td>
+                                    <td>{{ car.price_per_day }} تومان</td>
+                                    <td>
+                                        <form method="post" action="{% url 'toggle_car_status' car.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-{{ car.is_active|yesno:'success,danger' }}">
+                                                {{ car.is_active|yesno:"غیرفعال,فعال" }}
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{% url 'admin_delete_car' car.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p class="text-center">هیچ خودرویی یافت نشد.</p>
+                        {% endif %}
+                    </div>
                 </div>
 
                 <!-- Orders Management -->
                 <div class="tab-pane fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
                     <p class="titleWithBg">مدیریت سفارش‌ها</p>
-                    <ul>
-                        <li>
-                            <h3>لیست سفارش‌ها</h3>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>خودرو</th>
-                                        <th>کاربر</th>
-                                        <th>تاریخ شروع</th>
-                                        <th>تاریخ پایان</th>
-                                        <th>قیمت کل</th>
-                                        <th>وضعیت</th>
-                                        <th>اقدامات</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for order in orders %}
-                                    <tr>
-                                        <td>{{ order.car.name }}</td>
-                                        <td>{{ order.user.username }}</td>
-                                        <td>{{ order.start_date|date:"Y/m/d" }}</td>
-                                        <td>{{ order.end_date|date:"Y/m/d" }}</td>
-                                        <td>{{ order.total_price }} تومان</td>
-                                        <td>{{ order.get_status_display }}</td>
-                                        <td>
-                                            <form method="post" action="{% url 'admin_delete_order' order.id %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">حذف</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </li>
-                    </ul>
+                    <div class="table-responsive">
+                        {% if orders %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>خودرو</th>
+                                    <th>کاربر</th>
+                                    <th>تاریخ شروع</th>
+                                    <th>تاریخ پایان</th>
+                                    <th>قیمت کل</th>
+                                    <th>وضعیت</th>
+                                    <th>اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.car.name }}</td>
+                                    <td>{{ order.user.username }}</td>
+                                    <td>{{ order.start_date|date:"Y/m/d" }}</td>
+                                    <td>{{ order.end_date|date:"Y/m/d" }}</td>
+                                    <td>{{ order.total_price }} تومان</td>
+                                    <td>{{ order.get_status_display }}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'admin_delete_order' order.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p class="text-center">هیچ سفارشی یافت نشد.</p>
+                        {% endif %}
+                    </div>
                 </div>
 
                 <!-- Renter Requests -->
                 <div class="tab-pane fade" id="v-pills-requests" role="tabpanel" aria-labelledby="v-pills-requests-tab">
                     <p class="titleWithBg">درخواست‌های اجاره‌دهی</p>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>کاربر</th>
-                                <th>ایمیل</th>
-                                <th>اقدامات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for user in renter_requests %}
-                            <tr>
-                                <td>{{ user.username }}</td>
-                                <td>{{ user.email }}</td>
-                                <td>
-                                    <form method="post" action="{% url 'renter_requests' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="user_id" value="{{ user.id }}">
-                                        <button type="submit" name="action" value="approve" class="btn btn-success">موافقت</button>
-                                        <button type="submit" name="action" value="reject" class="btn btn-danger">رد</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="3" class="text-center">هیچ درخواستی برای اجاره‌دهی وجود ندارد.</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        {% if renter_requests %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>کاربر</th>
+                                    <th>ایمیل</th>
+                                    <th>اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in renter_requests %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'renter_requests' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <button type="submit" name="action" value="approve" class="btn btn-success">موافقت</button>
+                                            <button type="submit" name="action" value="reject" class="btn btn-danger">رد</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <p class="text-center">هیچ درخواستی برای اجاره‌دهی وجود ندارد.</p>
+                        {% endif %}
+                    </div>
                 </div>
                 
                 <!-- Recent Activities -->
                 <div class="recent-activities mt-4">
                     <h3>فعالیت‌های اخیر</h3>
                     <div class="list-group">
-                        {% for activity in recent_activities %}
-                        <div class="list-group-item">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">{{ activity.action }}</h5>
-                                <small>{{ activity.timestamp|date:"Y/m/d H:i" }}</small>
+                        {% if recent_activities %}
+                            {% for activity in recent_activities %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{ activity.action }}</h5>
+                                    <small>{{ activity.timestamp|date:"Y/m/d H:i" }}</small>
+                                </div>
+                                <p class="mb-1">کاربر: {{ activity.user }}</p>
+                                <small>وضعیت: {{ activity.status }}</small>
                             </div>
-                            <p class="mb-1">کاربر: {{ activity.user }}</p>
-                            <small>وضعیت: {{ activity.status }}</small>
-                        </div>
-                        {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                        <p class="text-center">هیچ فعالیت اخیری وجود ندارد.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

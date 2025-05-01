@@ -4,23 +4,170 @@
 {% block content %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
+    <style>
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        main {
+            margin-top: 2rem;
+            padding-top: 1rem;
+        }
+        
+        .container {
+            margin-top: 2rem;
+        }
+        
+        .row {
+            margin-top: 1rem;
+        }
+        
+        .carInfoCard {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .carInfoCard:hover {
+            transform: translateY(-5px);
+        }
+        
+        .carInfoCard img {
+            border-radius: 8px;
+            object-fit: cover;
+            height: 200px;
+            transition: transform 0.3s ease;
+        }
+        
+        .carInfoCard:hover img {
+            transform: scale(1.05);
+        }
+        
+        .car-model, .car-price {
+            color: #666;
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .car-price {
+            color: #2a5298;
+            font-weight: bold;
+        }
+        
+        .actions {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+        
+        .edit-btn, .delete-btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .edit-btn {
+            background: #2a5298;
+            color: white;
+        }
+        
+        .edit-btn:hover {
+            background: #1e3c72;
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .delete-btn:hover {
+            background: #c82333;
+        }
+        
+        .blue-btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: #2a5298;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+            margin-top: 1rem;
+        }
+        
+        .blue-btn:hover {
+            background: #1e3c72;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .yellow-text {
+            color: #ffc107;
+        }
+        
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .modal-footer {
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .empty-state p {
+            color: #666;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+    </style>
+    
     <header class="header">
-        <h1 class="text-center">خودروهای من</h1>
+        <div class="container">
+            <h1 class="text-center mb-0">خودروهای من</h1>
+        </div>
     </header>
+    
     <main>
         <div class="container">
-            <div class="row mt-4">
+            <div class="row">
                 {% for car in renter_cars %}
-                <div class="col-md-6 mb-4">
+                <div class="col-md-6">
                     <div class="carInfoCard">
-                        <div class="row d-flex align-items-center">
+                        <div class="row g-0">
                             <div class="col-sm-7">
                                 <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
                             </div>
-                            <div class="col-sm-5 px-1">
-                                <a href="{% url 'car_detail' car.pk %}" class="font-weight-bold mb-3 d-block h5" title="{{ car.name }}">{{ car.name }}</a>
+                            <div class="col-sm-5 p-3">
+                                <a href="{% url 'car_detail' car.pk %}" class="font-weight-bold mb-3 d-block h5 text-dark" title="{{ car.name }}">{{ car.name }}</a>
                                 <div class="my-2">
                                     <i class="far fa-star"></i>
                                     <i class="fas fa-star yellow-text"></i>
@@ -29,16 +176,19 @@
                                     <i class="fas fa-star yellow-text"></i>
                                 </div>
                                 <div class="my-2">
-                                    <p class="car-model">مدل: {{ car.model }}</p>
-                                    <p class="car-price">قیمت روزانه: {{ car.daily_price }} تومان</p>
+                                    <p class="car-model"><i class="fas fa-car mr-2"></i> مدل: {{ car.model }}</p>
+                                    <p class="car-price"><i class="fas fa-tag mr-2"></i> قیمت روزانه: {{ car.daily_price }} تومان</p>
                                 </div>
                                 <a href="{% url 'car_detail' car.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
                             </div>
                         </div>
                         <div class="actions">
-                            <button class="edit-btn" onclick="location.href='{% url 'car_update' pk=car.pk %}'">تغییر</button>
-                            <!-- Trigger modal -->
-                            <button class="delete-btn" data-toggle="modal" data-target="#deleteModal{{ car.pk }}">حذف</button>
+                            <button class="edit-btn" onclick="location.href='{% url 'car_update' pk=car.pk %}'">
+                                <i class="fas fa-edit mr-1"></i> تغییر
+                            </button>
+                            <button class="delete-btn" data-toggle="modal" data-target="#deleteModal{{ car.pk }}">
+                                <i class="fas fa-trash-alt mr-1"></i> حذف
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -48,19 +198,26 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel{{ car.pk }}">آیا از حذف خودرو {{ car.name }} مطمئن هستید؟</h5>
+                                <h5 class="modal-title" id="deleteModalLabel{{ car.pk }}">
+                                    <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                                    آیا از حذف خودرو {{ car.name }} مطمئن هستید؟
+                                </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                این عمل قابل بازگشت نمی‌باشد. آیا مطمئن هستید که می‌خواهید این خودرو را حذف کنید؟
+                                <p class="mb-0">این عمل قابل بازگشت نمی‌باشد. آیا مطمئن هستید که می‌خواهید این خودرو را حذف کنید؟</p>
                             </div>
                             <div class="modal-footer">
-                                <a href="{% url 'car_list' %}" class="btn btn-secondary" data-dismiss="modal">بستن</a>
-                                <form method="post" action="{% url 'car_delete' pk=car.pk %}">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    <i class="fas fa-times mr-1"></i> بستن
+                                </button>
+                                <form method="post" action="{% url 'admin_delete_car' car_id=car.pk %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger">حذف</button>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt mr-1"></i> حذف
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -68,11 +225,13 @@
                 </div>
                 {% empty %}
                 <div class="col-12">
-                    <p>شما هنوز هیچ خودرویی برای اجاره ثبت نکرده‌اید!</p>
+                    <div class="empty-state">
+                        <i class="fas fa-car fa-3x text-muted mb-3"></i>
+                        <p>شما هنوز هیچ خودرویی برای اجاره ثبت نکرده‌اید!</p>
+                    </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </main>
-</body>
 {% endblock %}
