@@ -5,47 +5,261 @@
 {% block content %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    
-    <div class="container mt-4">
-        <h2 class="text-center mb-4">ویرایش اطلاعات خودرو</h2>
-        
-        <form method="post" enctype="multipart/form-data" class="car-form">
-            {% csrf_token %}
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #f1f3f6;
+            padding: 20px;
+            direction: rtl;
+        }
+        .content-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .page-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: right;
+        }
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-align: right;
+            display: block;
+            width: 100%;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: right;
+            padding: 12px 15px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
+        }
+        .image-preview {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            background: #f9fafb;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+        .image-preview:hover {
+            border-color: #4a90e2;
+        }
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .upload-placeholder {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            width: 100%;
+        }
+        .upload-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+            color: #4a90e2;
+        }
+        .btn-primary {
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 17px;
+            margin-top: 20px;
+        }
+        .btn-secondary {
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 17px;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .form-check {
+            padding-right: 1.5em;
+            text-align: right;
+        }
+        .form-check-input {
+            margin-right: -1.5em;
+        }
+        .form-check-label {
+            padding-right: 1.5em;
+        }
+    </style>
+
+    <div class="container">
+        <section class="content-box">
+            <h2 class="page-title">ویرایش اطلاعات خودرو</h2>
             
-            <div class="form-group">
-                <label for="name">نام خودرو:</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ car.name }}" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="model">مدل:</label>
-                <input type="text" class="form-control" id="model" name="model" value="{{ car.model }}" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="daily_price">قیمت روزانه (تومان):</label>
-                <input type="number" class="form-control" id="daily_price" name="daily_price" value="{{ car.daily_price }}" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="description">توضیحات:</label>
-                <textarea class="form-control" id="description" name="description" rows="4">{{ car.description }}</textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="image">تصویر خودرو:</label>
-                <input type="file" class="form-control-file" id="image" name="image">
-                {% if car.image %}
-                    <div class="mt-2">
-                        <img src="{{ car.image.url }}" alt="{{ car.name }}" style="max-width: 200px;">
+            <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <!-- اطلاعات خودرو -->
+                <div class="mb-4">
+                    <label for="name" class="form-label">نام خودرو</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ car.name }}" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="model" class="form-label">مدل</label>
+                    <input type="text" class="form-control" id="model" name="model" value="{{ car.model }}" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label for="city" class="form-label">شهر</label>
+                        <input type="text" class="form-control" id="city" name="city" value="{{ car.city }}" required>
                     </div>
-                {% endif %}
-            </div>
-            
-            <div class="form-group text-center mt-4">
-                <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
-                <a href="{% url 'renter_cars' %}" class="btn btn-secondary">انصراف</a>
-            </div>
-        </form>
+
+                    <div class="col-md-6 mb-4">
+                        <label for="capacity" class="form-label">ظرفیت</label>
+                        <input type="number" class="form-control" id="capacity" name="capacity" value="{{ car.capacity }}" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <label for="price_per_day" class="form-label">قیمت روزانه (تومان)</label>
+                        <input type="number" class="form-control" id="price_per_day" name="price_per_day" value="{{ car.price_per_day }}" required>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <div class="form-check">
+                            <input type="checkbox" id="with_driver" name="with_driver" class="form-check-input"
+                                   {% if car.with_driver %}checked{% endif %}>
+                            <label for="with_driver" class="form-check-label">
+                                با راننده
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="description" class="form-label">توضیحات</label>
+                    <textarea class="form-control" id="description" name="description" rows="4">{{ car.description }}</textarea>
+                </div>
+
+                <!-- تصاویر خودرو -->
+                <h5 class="section-title">تصاویر خودرو</h5>
+                <div class="row g-4">
+                    <!-- تصویر اصلی -->
+                    <div class="col-md-6">
+                        <div class="image-preview" onclick="document.getElementById('image').click()">
+                            <img id="preview_image" alt="تصویر اصلی" 
+                                 {% if car.image %}src="{{ car.image.url }}" style="display: block;"{% endif %}>
+                            <div class="upload-placeholder" {% if car.image %}style="display: none;"{% endif %}>
+                                <i class="fas fa-camera"></i>
+                                کلیک برای آپلود تصویر
+                            </div>
+                        </div>
+                        <input type="file" id="image" name="image" accept="image/*" style="display: none;">
+                    </div>
+
+                    <!-- تصویر اضافی 1 -->
+                    <div class="col-md-6">
+                        <div class="image-preview" onclick="document.getElementById('image2').click()">
+                            <img id="preview_image2" alt="تصویر اضافی ۱"
+                                 {% if car.image2 %}src="{{ car.image2.url }}" style="display: block;"{% endif %}>
+                            <div class="upload-placeholder" {% if car.image2 %}style="display: none;"{% endif %}>
+                                <i class="fas fa-camera"></i>
+                                کلیک برای آپلود تصویر
+                            </div>
+                        </div>
+                        <input type="file" id="image2" name="image2" accept="image/*" style="display: none;">
+                    </div>
+
+                    <!-- تصویر اضافی 2 -->
+                    <div class="col-md-6">
+                        <div class="image-preview" onclick="document.getElementById('image3').click()">
+                            <img id="preview_image3" alt="تصویر اضافی ۲"
+                                 {% if car.image3 %}src="{{ car.image3.url }}" style="display: block;"{% endif %}>
+                            <div class="upload-placeholder" {% if car.image3 %}style="display: none;"{% endif %}>
+                                <i class="fas fa-camera"></i>
+                                کلیک برای آپلود تصویر
+                            </div>
+                        </div>
+                        <input type="file" id="image3" name="image3" accept="image/*" style="display: none;">
+                    </div>
+
+                    <!-- تصویر اضافی 3 -->
+                    <div class="col-md-6">
+                        <div class="image-preview" onclick="document.getElementById('image4').click()">
+                            <img id="preview_image4" alt="تصویر اضافی ۳"
+                                 {% if car.image4 %}src="{{ car.image4.url }}" style="display: block;"{% endif %}>
+                            <div class="upload-placeholder" {% if car.image4 %}style="display: none;"{% endif %}>
+                                <i class="fas fa-camera"></i>
+                                کلیک برای آپلود تصویر
+                            </div>
+                        </div>
+                        <input type="file" id="image4" name="image4" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+
+                <!-- دکمه‌های عملیات -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                    <a href="{% url 'renter_cars' %}" class="btn btn-secondary">انصراف</a>
+                </div>
+            </form>
+        </section>
     </div>
+
+    <!-- اسکریپت پیش نمایش عکس -->
+    <script>
+        function readURL(input, previewId) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = document.querySelector(previewId);
+                    var placeholder = img.parentElement.querySelector('.upload-placeholder');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        const imageMappings = [
+            { inputId: "image", previewId: "#preview_image" },
+            { inputId: "image2", previewId: "#preview_image2" },
+            { inputId: "image3", previewId: "#preview_image3" },
+            { inputId: "image4", previewId: "#preview_image4" }
+        ];
+
+        imageMappings.forEach(function(mapping) {
+            const inputElement = document.getElementById(mapping.inputId);
+            if (inputElement) {
+                inputElement.addEventListener("change", function() {
+                    readURL(this, mapping.previewId);
+                });
+            }
+        });
+    </script>
+
+    <!-- آیکون دوربین -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 {% endblock %} 

@@ -235,10 +235,20 @@ def car_update(request, pk):
         car.model = request.POST.get('model')
         car.daily_price = request.POST.get('daily_price')
         car.description = request.POST.get('description')
+        car.city = request.POST.get('city')
+        car.capacity = request.POST.get('capacity')
+        car.price_per_day = request.POST.get('price_per_day')
+        car.with_driver = request.POST.get('with_driver') == 'on'
         
-        # Handle image upload if provided
+        # Handle image uploads
         if 'image' in request.FILES:
             car.image = request.FILES['image']
+        if 'image2' in request.FILES:
+            car.image2 = request.FILES['image2']
+        if 'image3' in request.FILES:
+            car.image3 = request.FILES['image3']
+        if 'image4' in request.FILES:
+            car.image4 = request.FILES['image4']
             
         car.save()
         messages.success(request, 'خودرو با موفقیت بروزرسانی شد.')

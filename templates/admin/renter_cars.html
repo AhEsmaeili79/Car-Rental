@@ -148,6 +148,52 @@
             font-size: 1.1rem;
             margin: 0;
         }
+        
+        .car-info {
+            padding: 1rem;
+        }
+        
+        .car-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .car-info-item i {
+            width: 20px;
+            margin-left: 8px;
+            color: #2a5298;
+        }
+        
+        .car-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .with-driver-badge {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
     </style>
     
     <header class="header">
@@ -167,19 +213,41 @@
                                 <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
                             </div>
                             <div class="col-sm-5 p-3">
-                                <a href="{% url 'car_detail' car.pk %}" class="font-weight-bold mb-3 d-block h5 text-dark" title="{{ car.name }}">{{ car.name }}</a>
-                                <div class="my-2">
-                                    <i class="far fa-star"></i>
-                                    <i class="fas fa-star yellow-text"></i>
-                                    <i class="fas fa-star yellow-text"></i>
-                                    <i class="fas fa-star yellow-text"></i>
-                                    <i class="fas fa-star yellow-text"></i>
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <a href="{% url 'car_detail' car.pk %}" class="font-weight-bold mb-2 d-block h5 text-dark" title="{{ car.name }}">{{ car.name }}</a>
+                                    <span class="car-status {% if car.is_active %}status-active{% else %}status-inactive{% endif %}">
+                                        {% if car.is_active %}فعال{% else %}غیرفعال{% endif %}
+                                    </span>
                                 </div>
-                                <div class="my-2">
-                                    <p class="car-model"><i class="fas fa-car mr-2"></i> مدل: {{ car.model }}</p>
-                                    <p class="car-price"><i class="fas fa-tag mr-2"></i> قیمت روزانه: {{ car.daily_price }} تومان</p>
+                                
+                                <div class="car-info">
+                                    <div class="car-info-item">
+                                        <i class="fas fa-car"></i>
+                                        <span>مدل: {{ car.model }}</span>
+                                    </div>
+                                    <div class="car-info-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>شهر: {{ car.city }}</span>
+                                    </div>
+                                    <div class="car-info-item">
+                                        <i class="fas fa-users"></i>
+                                        <span>ظرفیت: {{ car.capacity }} نفر</span>
+                                    </div>
+                                    <div class="car-info-item">
+                                        <i class="fas fa-tag"></i>
+                                        <span>قیمت روزانه: {{ car.price_per_day }} تومان</span>
+                                    </div>
+                                    {% if car.with_driver %}
+                                    <div class="car-info-item">
+                                        <i class="fas fa-user-tie"></i>
+                                        <span class="with-driver-badge">با راننده</span>
+                                    </div>
+                                    {% endif %}
                                 </div>
-                                <a href="{% url 'car_detail' car.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                                
+                                <a href="{% url 'car_detail' car.pk %}" class="blue-btn w-100 text-center" title="نمایش اطلاعات">
+                                    <i class="fas fa-info-circle ml-1"></i> نمایش اطلاعات
+                                </a>
                             </div>
                         </div>
                         <div class="actions">
