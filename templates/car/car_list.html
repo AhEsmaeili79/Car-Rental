@@ -227,34 +227,40 @@
     gap: 20px;
 }
 
-.filter-form .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.filter-inputs .input-wrapper {
+    position: relative;
+    margin-top: 25px;
 }
 
-.filter-form label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.filter-inputs .input-wrapper input,
+.filter-inputs .input-wrapper select {
+    width: 100%;
+    padding: 12px 15px;
+    padding-right: 40px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.filter-inputs .input-wrapper label {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    font-size: 0.85rem;
     color: #2c3e50;
     font-weight: 500;
 }
 
-.filter-form i {
-    color: #1e3c72;
+.filter-inputs .input-wrapper i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
 }
 
-.filter-form input,
-.filter-form select {
-    border-radius: 10px;
-    border: 2px solid #e9ecef;
-    padding: 10px 15px;
-    transition: all 0.3s ease;
-}
-
-.filter-form input:focus,
-.filter-form select:focus {
+.filter-inputs .input-wrapper input:focus,
+.filter-inputs .input-wrapper select:focus {
     border-color: #1e3c72;
     box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
 }

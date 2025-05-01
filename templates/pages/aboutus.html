@@ -3,41 +3,151 @@
 {% block title %}درباره ما{% endblock %}
 
 {% block content %}
-<section class="about-section py-5" style="background-color: #f3f3f3;">
+<style>
+    .about-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 80px 0;
+    }
+
+    .intro-section {
+        background: linear-gradient(135deg, rgba(30, 60, 114, 0.95) 0%, rgba(42, 82, 152, 0.95) 100%);
+        border-radius: 20px;
+        padding: 60px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .intro-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('{% static "images/intro-bg.png" %}');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.1;
+        z-index: 0;
+    }
+
+    .intro-section > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .about-title {
+        color: #ffffff;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .about-text {
+        color: #ffffff;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .about-image {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+    .about-image:hover {
+        transform: translateY(-5px);
+    }
+
+    .team-section {
+        padding: 80px 0;
+        background: #ffffff;
+    }
+
+    .team-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .team-member {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .team-photo {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid #ffffff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .team-photo:hover {
+        transform: scale(1.05);
+    }
+
+    .team-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 1rem 0 0.5rem;
+    }
+
+    .team-role {
+        color: #6c757d;
+        font-size: 1rem;
+    }
+</style>
+
+<section class="about-section">
     <div class="container">
-        <div class="intro-section" style="background-image: url('{% static "images/intro-bg.png" %}'); background-size: cover; background-position: center; padding: 50px; border-radius: 10px;">
-            <h1 class="text-center mb-4" style="color: #ffffff;">درباره ما</h1>
-            <div class="row">
-                <div class="col-lg-6 mb-4 " style="color: #ffffff;">
-                    <p>ما با سابقه‌ای درخشان در ارائه خدمات رفاهی و اقامتی، تلاش می‌کند تا به بهترین شکل ممکن نیازهای مهمانان خود را برآورده سازد. هدف ما ایجاد فضایی راحت و دلنشین برای اقامتی خاطره‌انگیز است.</p>
-                    <p>ما به کیفیت، آرامش، و رضایت مشتریان خود متعهد هستیم و در این راستا تلاش می‌کنیم تا با ارائه بهترین امکانات و خدمات، تجربه‌ای منحصربه‌فرد را برای شما رقم بزنیم.</p>
+        <div class="intro-section">
+            <h1 class="about-title">درباره ما</h1>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <p class="about-text">ما با سابقه‌ای درخشان در ارائه خدمات رفاهی و اقامتی، تلاش می‌کند تا به بهترین شکل ممکن نیازهای مهمانان خود را برآورده سازد. هدف ما ایجاد فضایی راحت و دلنشین برای اقامتی خاطره‌انگیز است.</p>
+                    <p class="about-text">ما به کیفیت، آرامش، و رضایت مشتریان خود متعهد هستیم و در این راستا تلاش می‌کنیم تا با ارائه بهترین امکانات و خدمات، تجربه‌ای منحصربه‌فرد را برای شما رقم بزنیم.</p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="{% static 'images/about.jpg' %}" alt="درباره ما" class="img-fluid rounded shadow-sm">
+                    <img src="{% static 'images/about.jpg' %}" alt="درباره ما" class="img-fluid about-image">
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="team-section py-5">
+<section class="team-section">
     <div class="container">
-        <h2 class="text-center mb-5">تیم ما</h2>
+        <h2 class="team-title">تیم ما</h2>
         <div class="row">
-            <div class="col-md-4 text-center">
-                <img src="{% static 'images/team/member2.png' %}" alt="مینا رضایی" class="team-photo rounded-circle mb-3 shadow-sm" width="150" height="150">
-                <h4 class="team-name">مینا رضایی</h4>
-                <p class="team-role">مدیر روابط عمومی</p>
+            <div class="col-md-4">
+                <div class="team-member">
+                    <img src="{% static 'images/team/member2.png' %}" alt="مینا رضایی" class="team-photo">
+                    <h4 class="team-name">مینا رضایی</h4>
+                    <p class="team-role">مدیر روابط عمومی</p>
+                </div>
             </div>
-            <div class="col-md-4 text-center">
-                <img src="{% static 'images/team/member1.png' %}" alt="نگار ادهمی" class="team-photo rounded-circle mb-3 shadow-sm" width="150" height="150">
-                <h4 class="team-name">نگار ادهمی</h4>
-                <p class="team-role">مدیر</p>
+            <div class="col-md-4">
+                <div class="team-member">
+                    <img src="{% static 'images/team/member1.png' %}" alt="نگار ادهمی" class="team-photo">
+                    <h4 class="team-name">نگار ادهمی</h4>
+                    <p class="team-role">مدیر</p>
+                </div>
             </div>
-            <div class="col-md-4 text-center">
-                <img src="{% static 'images/team/member3.png' %}" alt="حسین موسوی" class="team-photo rounded-circle mb-3 shadow-sm" width="150" height="150">
-                <h4 class="team-name">حسین موسوی</h4>
-                <p class="team-role">مدیر فنی</p>
+            <div class="col-md-4">
+                <div class="team-member">
+                    <img src="{% static 'images/team/member3.png' %}" alt="حسین موسوی" class="team-photo">
+                    <h4 class="team-name">حسین موسوی</h4>
+                    <p class="team-role">مدیر فنی</p>
+                </div>
             </div>
         </div>
     </div>
