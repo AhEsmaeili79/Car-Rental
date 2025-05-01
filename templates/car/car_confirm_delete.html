@@ -23,7 +23,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">لغو</button>
-                <form method="post" action="{% url 'house_delete' pk=object.pk %}">
+                <form method="post" action="{% url 'car:car_delete' pk=object.pk %}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">حذف</button>
                 </form>
