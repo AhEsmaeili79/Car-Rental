@@ -1052,6 +1052,7 @@ footer .footer-link .link:hover {
 /* ********** start owl carousel section ********** */
 .owl-carousel-wrapper {
     margin: 120px auto;
+    position: relative;
 }
 
 .owl-carousel {
@@ -1061,7 +1062,12 @@ footer .footer-link .link:hover {
 
 .owl-carousel .owl-nav {
     display: block !important;
-    position: static;
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    transform: translateY(-50%);
+    margin: 0;
+    pointer-events: none;
 }
 
 .owl-carousel .owl-item {
@@ -1070,34 +1076,55 @@ footer .footer-link .link:hover {
 
 .owl-carousel .owl-nav button.owl-next,
 .owl-carousel .owl-nav button.owl-prev {
-    background-color: rgba(255, 255, 255, 0.9);
-    transition: 0.3s;
-    color: #333;
-    font-size: 40px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+    transition: all 0.3s ease;
+    color: white !important;
+    font-size: 24px !important;
     outline: none;
     position: absolute;
-    top: 20px;
-    bottom: 20px;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
-    padding: 12px !important;
-    opacity: 0.7;
+    padding: 0 !important;
+    opacity: 0.9;
+    pointer-events: auto;
+    width: 45px;
+    height: 45px;
+    border-radius: 50% !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
 }
 
 .owl-carousel .owl-nav button.owl-prev:hover,
 .owl-carousel .owl-nav button.owl-next:hover {
     opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%) !important;
+}
+
+.owl-carousel .owl-nav button.owl-prev:active,
+.owl-carousel .owl-nav button.owl-next:active {
+    transform: scale(0.95);
 }
 
 .owl-carousel .owl-nav button.owl-prev {
-    right: 0;
-    border-radius: 1em 0 0 1em;
+    left: -25px;
 }
 
 .owl-carousel .owl-nav button.owl-next {
-    left: 0;
-    border-radius: 0 1em 1em 0;
+    right: -25px;
+}
+
+/* Add specific styles for RTL layout */
+html[dir="rtl"] .owl-carousel .owl-nav button.owl-prev {
+    right: -25px;
+    left: auto;
+}
+
+html[dir="rtl"] .owl-carousel .owl-nav button.owl-next {
+    left: -25px;
+    right: auto;
 }
 
 .owl-carousel .suiteCard,
@@ -1130,20 +1157,19 @@ footer .footer-link .link:hover {
 
     .owl-carousel .owl-nav button.owl-next,
     .owl-carousel .owl-nav button.owl-prev {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         opacity: 1;
-        font-size: 30px !important;
-        top: calc(50% - 25px);
+        font-size: 20px !important;
         padding: 0 !important;
     }
 
     .owl-carousel .owl-nav button.owl-next:hover,
     .owl-carousel .owl-nav button.owl-prev:hover {
-        width: 60px;
+        width: 45px;
+        height: 45px;
     }
 }
-
 /* ********** end owl carousel section ********** */
 
 /* ********** start content section ********** */
@@ -1563,6 +1589,8 @@ footer .footer-link .link:hover {
 
 .login-modal.show .modal-content {
     transform: none;
+}
+
 .login-box {
     width: 100%;
     background-position: center;
