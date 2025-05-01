@@ -10,5 +10,7 @@ urlpatterns = [
     path('renter-reservations/', views.renter_reservations, name='renter_reservations'),
     path('confirm/<int:reservation_id>/', views.confirm_reservation, name='confirm_reservation'),
     path('reject/<int:reservation_id>/', views.reject_reservation, name='reject_reservation'),
+    path('user-orders/', views.user_orders, name='user_orders'),
+    path('cancel-order/<int:pk>/', views.cancel_order, name='cancel_order'),
 ]
 

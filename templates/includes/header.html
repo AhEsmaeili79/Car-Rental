@@ -32,7 +32,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'user_info' %}">اطلاعات کاربر</a>
-                                {% comment %} <a class="dropdown-item" href="{% url 'user_orders' %}">سفارشات</a> {% endcomment %}
+                                <a class="dropdown-item" href="{% url 'reservations:user_orders' %}">سفارشات</a> 
                                 {% comment %} {% if user.role == 2 %}
                                     <a class="dropdown-item" href="{% url 'host_reservations' %}">رزرو ها</a>
                                 {% endif %} {% endcomment %}

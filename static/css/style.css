@@ -1685,7 +1685,7 @@ footer .footer-link .link:hover {
 .input-wrapper input,
 .input-wrapper select {
     width: 100%;
-    padding: 24px 16px 8px 45px;
+    /* padding: 24px 16px 8px 45px; */
     border: 2px solid #e9ecef;
     border-radius: 12px;
     background: transparent;

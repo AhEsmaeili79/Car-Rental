@@ -3,8 +3,8 @@
 {% block title %}پنل مدیریت{% endblock %}
 
 {% block content %}
-<main class="container content content-box">
-    <h2 class="title">پنل مدیریت</h2>
+<main class="container content content-box py-4">
+    <h2 class="title mb-4 text-primary d-none d-lg-block text-center">پنل مدیریت</h2>
     
     <div class="row mtop-2">
         <!-- Sidebar Navigation -->
@@ -23,48 +23,52 @@
             <div class="dashboard-summary mb-4">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5>تعداد کل کاربران</h5>
-                                <h3>{{ total_users|default:"0" }}</h3>
+                        <div class="card shadow-sm h-100 border-0">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-2x text-primary mb-3"></i>
+                                <h5 class="card-title text-muted">تعداد کل کاربران</h5>
+                                <h3 class="text-primary">{{ total_users|default:"0" }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5>تعداد کل خودروها</h5>
-                                <h3>{{ total_cars|default:"0" }}</h3>
+                        <div class="card shadow-sm h-100 border-0">
+                            <div class="card-body text-center">
+                                <i class="fas fa-car fa-2x text-success mb-3"></i>
+                                <h5 class="card-title text-muted">تعداد کل خودروها</h5>
+                                <h3 class="text-success">{{ total_cars|default:"0" }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5>تعداد کل سفارش‌ها</h5>
-                                <h3>{{ total_orders|default:"0" }}</h3>
+                        <div class="card shadow-sm h-100 border-0">
+                            <div class="card-body text-center">
+                                <i class="fas fa-shopping-cart fa-2x text-info mb-3"></i>
+                                <h5 class="card-title text-muted">تعداد کل سفارش‌ها</h5>
+                                <h3 class="text-info">{{ total_orders|default:"0" }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5>درخواست‌های در انتظار</h5>
-                                <h3>{{ pending_renter_requests|default:"0" }}</h3>
+                        <div class="card shadow-sm h-100 border-0">
+                            <div class="card-body text-center">
+                                <i class="fas fa-clock fa-2x text-warning mb-3"></i>
+                                <h5 class="card-title text-muted">درخواست‌های در انتظار</h5>
+                                <h3 class="text-warning">{{ pending_renter_requests|default:"0" }}</h3>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-content bg-white rounded shadow-sm p-4" id="v-pills-tabContent">
                 <!-- Users Management -->
                 <div class="tab-pane fade show active" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
-                    <p class="titleWithBg">مدیریت کاربران</p>
+                    <h4 class="mb-4 text-primary">مدیریت کاربران</h4>
                     <div class="table-responsive">
                         {% if users %}
-                        <table class="table table-bordered">
-                            <thead>
+                        <table class="table table-hover">
+                            <thead class="thead-light">
                                 <tr>
                                     <th>نام کاربری</th>
                                     <th>ایمیل</th>
@@ -78,11 +82,21 @@
                                 <tr>
                                     <td>{{ user.username }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.get_role_display }}</td>
+                                    <td><span class="badge badge-info">
+                                        {% if user.get_role_display == 'Renter' %}
+                                            اجاره دهنده
+                                        {% elif user.get_role_display == 'Admin' %}
+                                            مدیر
+                                        {% elif user.get_role_display == 'Passenger' %}
+                                            مشتری
+                                        {% else %}
+                                            {{ user.get_role_display }}
+                                        {% endif %}
+                                    </span></td>
                                     <td>
                                         <form method="post" action="{% url 'toggle_user_status' user.id %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-{{ user.is_active|yesno:'success,danger' }}">
+                                            <button type="submit" class="btn btn-sm btn-{{ user.is_active|yesno:'success,danger' }}">
                                                 {{ user.is_active|yesno:"غیرفعال,فعال" }}
                                             </button>
                                         </form>
@@ -90,7 +104,9 @@
                                     <td>
                                         <form method="post" action="{% url 'admin_delete_user' user.id %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash-alt"></i> حذف
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -98,18 +114,18 @@
                             </tbody>
                         </table>
                         {% else %}
-                        <p class="text-center">هیچ کاربری یافت نشد.</p>
+                        <div class="alert alert-info text-center">هیچ کاربری یافت نشد.</div>
                         {% endif %}
                     </div>
                 </div>
 
                 <!-- Cars Management -->
                 <div class="tab-pane fade" id="v-pills-cars" role="tabpanel" aria-labelledby="v-pills-cars-tab">
-                    <p class="titleWithBg">مدیریت خودروها</p>
+                    <h4 class="mb-4 text-primary">مدیریت خودروها</h4>
                     <div class="table-responsive">
                         {% if cars %}
-                        <table class="table table-bordered">
-                            <thead>
+                        <table class="table table-hover">
+                            <thead class="thead-light">
                                 <tr>
                                     <th>نام</th>
                                     <th>مدل</th>
@@ -121,13 +137,13 @@
                             <tbody>
                                 {% for car in cars %}
                                 <tr>
-                                    <td><a href="{% url 'car_detail' car.pk %}">{{ car.name }}</a></td>
+                                    <td><a href="{% url 'car_detail' car.pk %}" class="text-primary">{{ car.name }}</a></td>
                                     <td>{{ car.model }}</td>
                                     <td>{{ car.price_per_day }} تومان</td>
                                     <td>
                                         <form method="post" action="{% url 'toggle_car_status' car.id %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-{{ car.is_active|yesno:'success,danger' }}">
+                                            <button type="submit" class="btn btn-sm btn-{{ car.is_active|yesno:'success,danger' }}">
                                                 {{ car.is_active|yesno:"غیرفعال,فعال" }}
                                             </button>
                                         </form>
@@ -135,7 +151,9 @@
                                     <td>
                                         <form method="post" action="{% url 'admin_delete_car' car.id %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash-alt"></i> حذف
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -143,18 +161,18 @@
                             </tbody>
                         </table>
                         {% else %}
-                        <p class="text-center">هیچ خودرویی یافت نشد.</p>
+                        <div class="alert alert-info text-center">هیچ خودرویی یافت نشد.</div>
                         {% endif %}
                     </div>
                 </div>
 
                 <!-- Orders Management -->
                 <div class="tab-pane fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
-                    <p class="titleWithBg">مدیریت سفارش‌ها</p>
+                    <h4 class="mb-4 text-primary">مدیریت سفارش‌ها</h4>
                     <div class="table-responsive">
                         {% if orders %}
-                        <table class="table table-bordered">
-                            <thead>
+                        <table class="table table-hover">
+                            <thead class="thead-light">
                                 <tr>
                                     <th>خودرو</th>
                                     <th>کاربر</th>
@@ -173,11 +191,13 @@
                                     <td>{{ order.start_date|date:"Y/m/d" }}</td>
                                     <td>{{ order.end_date|date:"Y/m/d" }}</td>
                                     <td>{{ order.total_price }} تومان</td>
-                                    <td>{{ order.get_status_display }}</td>
+                                    <td><span class="badge badge-{{ order.status|yesno:'success,warning,danger' }}">{{ order.get_status_display }}</span></td>
                                     <td>
                                         <form method="post" action="{% url 'admin_delete_order' order.id %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger">حذف</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash-alt"></i> حذف
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -185,18 +205,18 @@
                             </tbody>
                         </table>
                         {% else %}
-                        <p class="text-center">هیچ سفارشی یافت نشد.</p>
+                        <div class="alert alert-info text-center">هیچ سفارشی یافت نشد.</div>
                         {% endif %}
                     </div>
                 </div>
 
                 <!-- Renter Requests -->
                 <div class="tab-pane fade" id="v-pills-requests" role="tabpanel" aria-labelledby="v-pills-requests-tab">
-                    <p class="titleWithBg">درخواست‌های اجاره‌دهی</p>
+                    <h4 class="mb-4 text-primary">درخواست‌های اجاره‌دهی</h4>
                     <div class="table-responsive">
                         {% if renter_requests %}
-                        <table class="table table-bordered">
-                            <thead>
+                        <table class="table table-hover">
+                            <thead class="thead-light">
                                 <tr>
                                     <th>کاربر</th>
                                     <th>ایمیل</th>
@@ -209,11 +229,15 @@
                                     <td>{{ user.username }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>
-                                        <form method="post" action="{% url 'renter_requests' %}">
+                                        <form method="post" action="{% url 'renter_requests' %}" class="d-inline">
                                             {% csrf_token %}
                                             <input type="hidden" name="user_id" value="{{ user.id }}">
-                                            <button type="submit" name="action" value="approve" class="btn btn-success">موافقت</button>
-                                            <button type="submit" name="action" value="reject" class="btn btn-danger">رد</button>
+                                            <button type="submit" name="action" value="approve" class="btn btn-sm btn-success mr-2">
+                                                <i class="fas fa-check"></i> موافقت
+                                            </button>
+                                            <button type="submit" name="action" value="reject" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-times"></i> رد
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -221,28 +245,30 @@
                             </tbody>
                         </table>
                         {% else %}
-                        <p class="text-center">هیچ درخواستی برای اجاره‌دهی وجود ندارد.</p>
+                        <div class="alert alert-info text-center">هیچ درخواستی برای اجاره‌دهی وجود ندارد.</div>
                         {% endif %}
                     </div>
                 </div>
                 
                 <!-- Recent Activities -->
-                <div class="recent-activities mt-4">
-                    <h3>فعالیت‌های اخیر</h3>
+                <div class="recent-activities mt-5">
+                    <h4 class="mb-4 text-primary">فعالیت‌های اخیر</h4>
                     <div class="list-group">
                         {% if recent_activities %}
                             {% for activity in recent_activities %}
-                            <div class="list-group-item">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">{{ activity.action }}</h5>
-                                    <small>{{ activity.timestamp|date:"Y/m/d H:i" }}</small>
+                            <div class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-1">{{ activity.action }}</h5>
+                                        <p class="mb-1 text-muted">کاربر: {{ activity.user }}</p>
+                                        <small class="text-muted">وضعیت: {{ activity.status }}</small>
+                                    </div>
+                                    <small class="text-muted">{{ activity.timestamp|date:"Y/m/d H:i" }}</small>
                                 </div>
-                                <p class="mb-1">کاربر: {{ activity.user }}</p>
-                                <small>وضعیت: {{ activity.status }}</small>
                             </div>
                             {% endfor %}
                         {% else %}
-                        <p class="text-center">هیچ فعالیت اخیری وجود ندارد.</p>
+                        <div class="alert alert-info text-center">هیچ فعالیت اخیری وجود ندارد.</div>
                         {% endif %}
                     </div>
                 </div>
@@ -250,4 +276,57 @@
         </div>
     </div>
 </main>
+
+<style>
+.nav-pills .nav-link {
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: #f8f9fa;
+    color: black;
+    transform: translateX(-5px);
+}
+
+.nav-pills .nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.table th {
+    font-weight: 600;
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.list-group-item {
+    transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.badge {
+    padding: 0.5em 0.8em;
+    font-weight: 500;
+}
+</style>
 {% endblock %}
