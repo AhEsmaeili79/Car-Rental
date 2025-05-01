@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<div class="container contentForTab show" for="v-pills-home-tab">
+<div class="container contentForTab show  " for="v-pills-home-tab">
     <div class="content-box p-3">
         <p class="titleWithBg">تصاویر</p>
         <div class="lightgallery image-gallery default">
@@ -303,17 +303,45 @@
             <div class="center border-form padding-form">
                 <form method="post" action="{% url 'reservations:order_car' object.id %}" autocomplete="off">
                     {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     <div class="form-group">
                         <label for="pickup_date">تاریخ تحویل:</label>
-                        <input data-jdp name="arrive_date" data-jdp-min-date="today" id="pickup_date" data-jdp-only-date class="form-control"  required autocomplete="off"/>
+                        <input data-jdp name="pickup_date" data-jdp-min-date="today" id="pickup_date" data-jdp-only-date class="form-control" required autocomplete="off"/>
+                        {% if form.pickup_date.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.pickup_date.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="form-group">
                         <label for="return_date">تاریخ بازگشت:</label>
-                        <input data-jdp name="exit_date" data-jdp-min-date="today" id="return_date"  data-jdp-only-date class="form-control"  required autocomplete="off"/>
+                        <input data-jdp name="return_date" data-jdp-min-date="today" id="return_date" data-jdp-only-date class="form-control" required autocomplete="off"/>
+                        {% if form.return_date.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.return_date.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="form-group">
                         <label for="number_of_passengers">تعداد مسافران:</label>
-                        <input type="number" name="number_of_passengers" id="id_count_of_passengers" id="number_of_passengers" class="form-control" min="1" placeholder="فقط عدد" required autocomplete="off">
+                        <input type="number" name="number_of_passengers" id="number_of_passengers" class="form-control" min="1" placeholder="فقط عدد" required autocomplete="off">
+                        {% if form.number_of_passengers.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.number_of_passengers.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <button type="submit" class="btn btn-success mt-3">رزرو</button>
                 </form>

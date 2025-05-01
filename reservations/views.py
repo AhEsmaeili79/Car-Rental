@@ -7,6 +7,9 @@ from .forms import OrderForm
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -14,9 +17,15 @@ User = get_user_model()
 def order_car(request, pk):
     car = get_object_or_404(Car, pk=pk)
     if request.method == 'POST':
+        # Log raw POST data
+        logger.info(f"Raw POST data - pickup_date: {request.POST.get('pickup_date')}, return_date: {request.POST.get('return_date')}")
+        
         form = OrderForm(request.POST)
         if form.is_valid():
             order = form.save(commit=False)
+            # Log cleaned form data
+            logger.info(f"Cleaned form data - pickup_date: {order.pickup_date}, return_date: {order.return_date}")
+            
             order.user = request.user
             order.car = car
 
@@ -29,21 +38,12 @@ def order_car(request, pk):
             )
             if existing_orders.exists():
                 messages.error(request, 'این خودرو در تاریخ انتخاب شده رزرو شده است.')
-                return redirect('car:car_detail', pk=pk)
+                return render(request, 'car/car_detail.html', {'form': form, 'object': car})
             
             # Validate number of passengers
             if order.number_of_passengers > car.capacity:
                 messages.error(request, 'تعداد مسافران از ظرفیت خودرو بیشتر است.')
-                return redirect('car:car_detail', pk=pk)
-            
-            # Validate dates
-            if order.return_date <= order.pickup_date:
-                messages.error(request, 'تاریخ برگشت باید بعد از تاریخ تحویل باشد.')
-                return redirect('car:car_detail', pk=pk)
-
-            if order.pickup_date < timezone.now().date():
-                messages.error(request, 'تاریخ تحویل نمی‌تواند در گذشته باشد.')
-                return redirect('car:car_detail', pk=pk)
+                return render(request, 'car/car_detail.html', {'form': form, 'object': car})
 
             # Calculate total price
             days = (order.return_date - order.pickup_date).days
@@ -53,7 +53,11 @@ def order_car(request, pk):
             order.save()
             
             messages.success(request, 'رزرو خودرو با موفقیت انجام شد.')
-            return redirect('car:car_detail', pk=pk)  
+            return redirect('car:car_detail', pk=pk)
+        else:
+            # Log form errors
+            logger.error(f"Form errors: {form.errors}")
+            return render(request, 'car/car_detail.html', {'form': form, 'object': car})
     else:
         form = OrderForm()
     return render(request, 'car/car_detail.html', {'form': form, 'object': car})
