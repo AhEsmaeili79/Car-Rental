@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}خودروهای اجاره‌دهنده{% endblock %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1 class="text-center">خودروهای من</h1>
+    </header>
+    <main>
+        <div class="container">
+            <div class="row mt-4">
+                {% for car in renter_cars %}
+                <div class="col-md-6 mb-4">
+                    <div class="carInfoCard">
+                        <div class="row d-flex align-items-center">
+                            <div class="col-sm-7">
+                                <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
+                            </div>
+                            <div class="col-sm-5 px-1">
+                                <a href="{% url 'car_detail' car.pk %}" class="font-weight-bold mb-3 d-block h5" title="{{ car.name }}">{{ car.name }}</a>
+                                <div class="my-2">
+                                    <i class="far fa-star"></i>
+                                    <i class="fas fa-star yellow-text"></i>
+                                    <i class="fas fa-star yellow-text"></i>
+                                    <i class="fas fa-star yellow-text"></i>
+                                    <i class="fas fa-star yellow-text"></i>
+                                </div>
+                                <div class="my-2">
+                                    <p class="car-model">مدل: {{ car.model }}</p>
+                                    <p class="car-price">قیمت روزانه: {{ car.daily_price }} تومان</p>
+                                </div>
+                                <a href="{% url 'car_detail' car.pk %}" class="blue-btn" title="نمایش اطلاعات">نمایش اطلاعات</a>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="edit-btn" onclick="location.href='{% url 'car_update' pk=car.pk %}'">تغییر</button>
+                            <!-- Trigger modal -->
+                            <button class="delete-btn" data-toggle="modal" data-target="#deleteModal{{ car.pk }}">حذف</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal{{ car.pk }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ car.pk }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel{{ car.pk }}">آیا از حذف خودرو {{ car.name }} مطمئن هستید؟</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                این عمل قابل بازگشت نمی‌باشد. آیا مطمئن هستید که می‌خواهید این خودرو را حذف کنید؟
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'car_list' %}" class="btn btn-secondary" data-dismiss="modal">بستن</a>
+                                <form method="post" action="{% url 'car_delete' pk=car.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">حذف</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p>شما هنوز هیچ خودرویی برای اجاره ثبت نکرده‌اید!</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+</body>
+{% endblock %}

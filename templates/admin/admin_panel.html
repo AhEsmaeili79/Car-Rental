@@ -4,21 +4,59 @@
 
 {% block content %}
 <main class="container content content-box">
-    <h2 class="title-hotel">پنل مدیریت</h2>
+    <h2 class="title">پنل مدیریت</h2>
     
     <div class="row mtop-2">
         <!-- Sidebar Navigation -->
         <div class="col-md-2 col-sm-3 nav-wrapper">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" id="v-pills-users-tab" data-toggle="pill" href="#v-pills-users" role="tab" aria-controls="v-pills-users" aria-selected="true">مدیریت کاربران</a>
-                <a class="nav-link" id="v-pills-houses-tab" data-toggle="pill" href="#v-pills-houses" role="tab" aria-controls="v-pills-houses" aria-selected="false">مدیریت خانه‌ها</a>
+                <a class="nav-link" id="v-pills-cars-tab" data-toggle="pill" href="#v-pills-cars" role="tab" aria-controls="v-pills-cars" aria-selected="false">مدیریت خودروها</a>
                 <a class="nav-link" id="v-pills-orders-tab" data-toggle="pill" href="#v-pills-orders" role="tab" aria-controls="v-pills-orders" aria-selected="false">مدیریت سفارش‌ها</a>
-                <a class="nav-link" id="v-pills-requests-tab" data-toggle="pill" href="#v-pills-requests" role="tab" aria-controls="v-pills-requests" aria-selected="false">درخواست‌های میزبانی</a>
+                <a class="nav-link" id="v-pills-requests-tab" data-toggle="pill" href="#v-pills-requests" role="tab" aria-controls="v-pills-requests" aria-selected="false">درخواست‌های اجاره‌دهی</a>
             </div>
         </div>
 
         <!-- Main Content Area -->
         <div class="col-md-10 col-sm-9 content-wrapper">
+            <!-- Dashboard Summary -->
+            <div class="dashboard-summary mb-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>تعداد کل کاربران</h5>
+                                <h3>{{ total_users }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>تعداد کل خودروها</h5>
+                                <h3>{{ total_cars }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>تعداد کل سفارش‌ها</h5>
+                                <h3>{{ total_orders }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>درخواست‌های در انتظار</h5>
+                                <h3>{{ pending_renter_requests }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="tab-content" id="v-pills-tabContent">
                 <!-- Users Management -->
                 <div class="tab-pane fade show active" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
@@ -62,40 +100,36 @@
                     </ul>
                 </div>
 
-                <!-- Houses Management -->
-                <div class="tab-pane fade" id="v-pills-houses" role="tabpanel" aria-labelledby="v-pills-houses-tab">
-                    <p class="titleWithBg">مدیریت خانه‌ها</p>
+                <!-- Cars Management -->
+                <div class="tab-pane fade" id="v-pills-cars" role="tabpanel" aria-labelledby="v-pills-cars-tab">
+                    <p class="titleWithBg">مدیریت خودروها</p>
                     <ul>
                         <li>
-                            <h3>لیست خانه‌ها</h3>
+                            <h3>لیست خودروها</h3>
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>نام</th>
-                                        <th>شهر</th>
-                                        <th>تعداد اتاق‌ها</th>
-                                        <th>ظرفیت</th>
-                                        <th>قیمت به ازای هر روز</th>
+                                        <th>مدل</th>
+                                        <th>قیمت روزانه</th>
                                         <th>وضعیت</th>
                                         <th>اقدامات</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for house in houses %}
+                                    {% for car in cars %}
                                     <tr>
-                                        <td><a href="{% url 'house_detail' house.pk %}">{{ house.name }}</a></td>
-                                        <td>{{ house.city }}</td>
-                                        <td>{{ house.number_of_rooms }} اتاق</td>
-                                        <td>{{ house.capacity }} نفر</td>
-                                        <td>{{ house.price_per_day }} تومان</td>
+                                        <td><a href="{% url 'car_detail' car.pk %}">{{ car.name }}</a></td>
+                                        <td>{{ car.model }}</td>
+                                        <td>{{ car.daily_price }} تومان</td>
                                         <td>
-                                            <form method="post" action="{% url 'toggle_house_status' house.id %}">
+                                            <form method="post" action="{% url 'toggle_car_status' car.id %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-{{ house.is_active|yesno:'success,danger' }}">{{ house.is_active|yesno:"غیرفعال , فعال " }}</button>
+                                                <button type="submit" class="btn btn-{{ car.is_active|yesno:'success,danger' }}">{{ car.is_active|yesno:"غیرفعال , فعال " }}</button>
                                             </form>
                                         </td>
                                         <td>
-                                            <form method="post" action="{% url 'admin_delete_house' house.id %}">
+                                            <form method="post" action="{% url 'admin_delete_car' car.id %}">
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-danger">حذف</button>
                                             </form>
@@ -117,24 +151,24 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>خانه</th>
-                                        <th>مسافر</th>
+                                        <th>خودرو</th>
+                                        <th>کاربر</th>
                                         <th>تاریخ شروع</th>
-                                        <th>تاریخ تحویل</th>
-                                        <th>تعداد مسافرین</th>
+                                        <th>تاریخ پایان</th>
                                         <th>قیمت کل</th>
+                                        <th>وضعیت</th>
                                         <th>اقدامات</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for order in orders %}
                                     <tr>
-                                        <td>{{ order.house.name }}</td>
+                                        <td>{{ order.car.name }}</td>
                                         <td>{{ order.user.username }}</td>
-                                        <td>{{ order.arrive_date|date:"Y/m/d" }}</td>
-                                        <td>{{ order.exit_date|date:"Y/m/d" }}</td>
-                                        <td>{{ order.count_of_passengers }} نفر</td>
+                                        <td>{{ order.start_date|date:"Y/m/d" }}</td>
+                                        <td>{{ order.end_date|date:"Y/m/d" }}</td>
                                         <td>{{ order.total_price }} تومان</td>
+                                        <td>{{ order.get_status_display }}</td>
                                         <td>
                                             <form method="post" action="{% url 'admin_delete_order' order.id %}">
                                                 {% csrf_token %}
@@ -149,9 +183,9 @@
                     </ul>
                 </div>
 
-                <!-- Host Requests -->
+                <!-- Renter Requests -->
                 <div class="tab-pane fade" id="v-pills-requests" role="tabpanel" aria-labelledby="v-pills-requests-tab">
-                    <p class="titleWithBg">درخواست‌های میزبانی</p>
+                    <p class="titleWithBg">درخواست‌های اجاره‌دهی</p>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -161,28 +195,44 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for user in host_requests %}
+                            {% for user in renter_requests %}
                             <tr>
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>
-                                    <form method="post" action="{% url 'host_requests' %}">
+                                    <form method="post" action="{% url 'renter_requests' %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="user_id" value="{{ user.id }}">
                                         <button type="submit" name="action" value="approve" class="btn btn-success">موافقت</button>
-                                        <button type="submit" name="action" value="deny" class="btn btn-danger">لغو</button>
+                                        <button type="submit" name="action" value="reject" class="btn btn-danger">رد</button>
                                     </form>
                                 </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="3" class="text-center">هیچ درخواستی برای میزبانی وجود ندارد.</td>
+                                <td colspan="3" class="text-center">هیچ درخواستی برای اجاره‌دهی وجود ندارد.</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 
+                <!-- Recent Activities -->
+                <div class="recent-activities mt-4">
+                    <h3>فعالیت‌های اخیر</h3>
+                    <div class="list-group">
+                        {% for activity in recent_activities %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ activity.action }}</h5>
+                                <small>{{ activity.timestamp|date:"Y/m/d H:i" }}</small>
+                            </div>
+                            <p class="mb-1">کاربر: {{ activity.user }}</p>
+                            <small>وضعیت: {{ activity.status }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
