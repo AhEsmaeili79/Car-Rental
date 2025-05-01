@@ -52,6 +52,11 @@ def car_list(request):
 
     cars = cars.order_by(sort_by)
 
+    # Calculate average ratings for each car
+    for car in cars:
+        car.avg_rating = car.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+        car.review_count = car.reviews.count()
+
     context = {
         'cars': cars,
         'current_filters': request.GET,  # Pass current filters to template
