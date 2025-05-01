@@ -5,7 +5,7 @@
     <div class="container">
         <div class="titleWithBg d-flex align-items-center justify-content-between">
             <p class="mb-0 ml-2">بهترین ها</p>
-            <a class="font-weight-normal" href="#" title="بیشتر">بیشتر +</a>
+            <a class="font-weight-normal" href="{% url 'car:car_list' %}" title="بیشتر">بیشتر +</a>
         </div>
         <!--start owl-layout section-->
         <div class="owl-layout-wrapper">
@@ -15,41 +15,41 @@
                         <div class="card-image-wrapper">
                             <img class="w-100" src="{{ car.image.url }}" alt="{{ car.name }}">
                             <div class="card-overlay">
-                                <span class="car-type">{{ car.type }}</span>
-                                <span class="car-price">{{ car.price }} تومان/روز</span>
+                                <span class="car-type">{{ car.city }}</span>
+                                <span class="car-price">{{ car.price_per_day }} تومان/روز</span>
                             </div>
                         </div>
                         <div class="card-content">
                             <div class="car-header">
-                                <a href="#" class="car-title" title="{{ car.name }}">{{ car.name }}</a>
+                                <a href="{% url 'car:car_detail' car.id %}" class="car-title" title="{{ car.name }}">{{ car.name }}</a>
                                 <div class="rating-badge">
                                     <i class="fas fa-star"></i>
-                                    <span>{{ car.rating }}</span>
+                                    <span>{{ car.avg_rating|floatformat:1 }}</span>
                                 </div>
                             </div>
                             
                             <div class="car-details">
                                 <div class="detail-item">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span class="detail-label">سال ساخت</span>
-                                    <span class="detail-value">{{ car.model_year }}</span>
+                                    <i class="fas fa-users"></i>
+                                    <span class="detail-label">ظرفیت</span>
+                                    <span class="detail-value">{{ car.capacity }} نفر</span>
                                 </div>
                                 <div class="detail-item">
-                                    <i class="fas fa-gas-pump"></i>
-                                    <span class="detail-label">نوع سوخت</span>
-                                    <span class="detail-value">{{ car.fuel_type }}</span>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span class="detail-label">شهر</span>
+                                    <span class="detail-value">{{ car.city }}</span>
                                 </div>
                                 <div class="detail-item">
-                                    <i class="fas fa-cogs"></i>
-                                    <span class="detail-label">گیربکس</span>
-                                    <span class="detail-value">{{ car.transmission }}</span>
+                                    <i class="fas fa-user-tie"></i>
+                                    <span class="detail-label">راننده</span>
+                                    <span class="detail-value">{% if car.with_driver %}دارد{% else %}ندارد{% endif %}</span>
                                 </div>
                             </div>
 
                             <div class="car-features">
                                 <div class="feature-item">
                                     <i class="fas fa-car-side"></i>
-                                    <span>بدون راننده</span>
+                                    <span>{% if car.with_driver %}با راننده{% else %}بدون راننده{% endif %}</span>
                                 </div>
                                 <div class="feature-item">
                                     <i class="fas fa-snowflake"></i>
@@ -66,14 +66,6 @@
                                     <i class="fas fa-info-circle"></i>
                                     نمایش اطلاعات
                                 </a>
-                                <div class="user-rating">
-                                    <div class="rating-stars">
-                                        {% for i in "12345"|make_list %}
-                                            <i class="fas fa-star {% if forloop.counter <= car.rating %}active{% endif %}"></i>
-                                        {% endfor %}
-                                    </div>
-                                    <span class="rating-count">({{ car.rating_count }} نظر)</span>
-                                </div>
                             </div>
                         </div>
                     </div>
