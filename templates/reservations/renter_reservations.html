@@ -162,11 +162,11 @@
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-calendar-alt"></i>
-                                <span>تاریخ تحویل: {{ order.pickup_date }}</span>
+                                <span>تاریخ تحویل: {{ order.pickup_date|date:"Y/m/d" }}</span>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-calendar-check"></i>
-                                <span>تاریخ بازگشت: {{ order.return_date }}</span>
+                                <span>تاریخ بازگشت: {{ order.return_date|date:"Y/m/d" }}</span>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-users"></i>
