@@ -10,7 +10,11 @@ User = get_user_model()
 
 def home(request):
     cars = Car.objects.all()
-    return render(request, 'users/home.html', {'cars': cars})
+    show_modal = request.GET.get('next') is not None
+    return render(request, 'users/home.html', {
+        'cars': cars,
+        'show_modal': show_modal
+    })
 
 def signup(request):
     if request.method == 'POST':
@@ -43,15 +47,21 @@ def login_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        if not username or not password:
+            messages.error(request, 'لطفاً نام کاربری و رمز عبور را وارد کنید.')
+            return redirect('home')
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            messages.success(request, 'ورود موفقیت‌آمیز بود.')
+            next_url = request.GET.get('next', 'home')
+            return redirect(next_url)
         else:
             messages.error(request, 'نام کاربری یا رمز عبور اشتباه است.')
             return redirect('home')
 
-    return render(request, 'includes/modal.html')
+    return redirect('home')
 
 def logout_view(request):
     logout(request)

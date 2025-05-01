@@ -148,5 +148,13 @@
             });
         });
     </script>
+    <script>
+        // Show login modal if show_modal is true
+        {% if show_modal %}
+            $(document).ready(function() {
+                $('#exampleModal').modal('show');
+            });
+        {% endif %}
+    </script>
 </body>
 </html>

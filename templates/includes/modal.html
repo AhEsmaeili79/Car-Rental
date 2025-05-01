@@ -25,7 +25,7 @@
                                 aria-labelledby="pills-login-tab">
                                 <div class="row align-items-center justify-content-between">
                                     <div class="col-md-5">
-                                        <form method="POST" action="{% url 'login' %}">
+                                        <form method="POST" action="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" id="login-form">
                                             {% csrf_token %}
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="username" placeholder="نام کاربری" required>

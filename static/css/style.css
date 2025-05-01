@@ -1550,6 +1550,19 @@ footer .footer-link .link:hover {
     border-radius: 10px;
 }
 
+/* Add styles for when modal is shown */
+.login-modal.show {
+    display: block !important;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.login-modal.show .modal-dialog {
+    transform: none;
+    transition: transform .3s ease-out;
+}
+
+.login-modal.show .modal-content {
+    transform: none;
 .login-box {
     width: 100%;
     background-position: center;

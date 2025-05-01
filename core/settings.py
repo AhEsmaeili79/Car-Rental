@@ -58,7 +58,7 @@ DATABASES = {
     }
 }
 
-LOGIN_URL = '/login/'  
+LOGIN_URL = '/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
