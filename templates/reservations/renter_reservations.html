@@ -4,33 +4,196 @@
 {% block title %}رزروهای میزبان{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-4">رزروهای اجاره خودرو</h2>
+<style>
+    .reservation-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+        margin-bottom: 1.5rem;
+    }
+
+    .reservation-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+        padding: 1rem;
+    }
+
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status-confirmed {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status-cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .status-completed {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        color: #555;
+    }
+
+    .info-item i {
+        width: 25px;
+        color: #2a5298;
+        margin-left: 10px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .btn-confirm {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-confirm:hover {
+        background: #218838;
+        transform: translateY(-2px);
+    }
+
+    .btn-reject {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-reject:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+    }
+
+    .price-tag {
+        background: #e9ecef;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+        color: #2a5298;
+    }
+
+    .page-container {
+        margin-top: 3rem;
+        padding-top: 1rem;
+    }
+
+    .page-header {
+        margin-bottom: 2.5rem;
+    }
+</style>
+
+<div class="container page-container">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">رزروهای اجاره خودرو</h2>
+        <div class="text-muted">تعداد کل: {{ reservations|length }}</div>
+    </div>
+
     {% if reservations %}
         <div class="row">
             {% for order in reservations %}
-                <div class="col-md-6 mb-4">
-                    <div class="card">
+                <div class="col-md-6">
+                    <div class="card reservation-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">{{ order.car.name }}</h5>
+                            <span class="status-badge status-{{ order.status }}">
+                                {% if order.status == 'pending' %}
+                                    در انتظار تایید
+                                {% elif order.status == 'confirmed' %}
+                                    تایید شده
+                                {% elif order.status == 'cancelled' %}
+                                    لغو شده
+                                {% else %}
+                                    تکمیل شده
+                                {% endif %}
+                            </span>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ order.car.name }}</h5>
-                            <p class="card-text">
-                                <strong>مشتری:</strong> {{ order.user.username }}<br>
-                                <strong>تاریخ تحویل:</strong> {{ order.pickup_date }}<br>
-                                <strong>تاریخ بازگشت:</strong> {{ order.return_date }}<br>
-                                <strong>تعداد مسافران:</strong> {{ order.number_of_passengers }}<br>
-                                <strong>مبلغ کل:</strong> {{ order.total_price }} تومان<br>
-                                <strong>وضعیت:</strong> {{ order.status }}<br>
-                                <strong>شهر:</strong> {{ order.car.city }}
-                            </p>
+                            <div class="info-item">
+                                <i class="fas fa-user"></i>
+                                <span>مشتری: {{ order.user.username }}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>تاریخ تحویل: {{ order.pickup_date }}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>تاریخ بازگشت: {{ order.return_date }}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <span>تعداد مسافران: {{ order.number_of_passengers }} نفر</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>شهر: {{ order.car.city }}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-tag"></i>
+                                <span class="price-tag">{{ order.total_price }} تومان</span>
+                            </div>
+
                             {% if order.status == 'pending' %}
-                                <div class="mt-3">
-                                    <form method="post" action="{% url 'reservations:confirm_order' order.id %}" class="d-inline">
+                                <div class="action-buttons">
+                                    <form method="post" action="{% url 'reservations:confirm_reservation' order.id %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-success">تایید</button>
+                                        <button type="submit" class="btn-confirm">
+                                            <i class="fas fa-check ml-1"></i> تایید
+                                        </button>
                                     </form>
-                                    <form method="post" action="{% url 'reservations:reject_order' order.id %}" class="d-inline">
+                                    <form method="post" action="{% url 'reservations:reject_reservation' order.id %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">رد</button>
+                                        <button type="submit" class="btn-reject">
+                                            <i class="fas fa-times ml-1"></i> رد
+                                        </button>
                                     </form>
                                 </div>
                             {% endif %}
@@ -40,8 +203,10 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="alert alert-info">
-            شما هنوز هیچ درخواست رزرو خودرویی ندارید.
+        <div class="empty-state">
+            <i class="fas fa-car"></i>
+            <h4 class="mt-3">هیچ درخواست رزرویی وجود ندارد</h4>
+            <p class="text-muted">شما هنوز هیچ درخواست رزرو خودرویی ندارید.</p>
         </div>
     {% endif %}
 </div>
