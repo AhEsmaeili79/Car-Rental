@@ -22,36 +22,38 @@
                                     مشاهده جزئیات
                                 </a>
                                 <div class="quick-info">
-                                    <span><i class="fas fa-gas-pump"></i> {{ car.fuel_type }}</span>
-                                    <span><i class="fas fa-calendar"></i> {{ car.year }}</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ car.city }}</span>
+                                    <span><i class="fas fa-car"></i> {% if car.with_driver %}با راننده{% else %}بدون راننده{% endif %}</span>
                                 </div>
                             </div>
                         </div>
+                        {% if car.reviews.exists %}
                         <div class="offer-badge">
                             <i class="fas fa-star"></i>
-                            {{ car.rating }}
+                            {{ car.reviews.first.rating }}
                         </div>
+                        {% endif %}
                     </div>
                     <div class="offer-content">
                         <div class="offer-header">
                             <h3 class="offer-title">{{ car.name }}</h3>
                             <div class="offer-price">
-                                <span class="price">{{ car.price_per_day }}</span>
+                                <span class="price">{{ car.price_per_day|floatformat:0 }}</span>
                                 <span class="currency">تومان/روز</span>
                             </div>
                         </div>
                         <div class="offer-features">
                             <div class="feature">
-                                <i class="fas fa-car"></i>
-                                <span>{{ car.brand }}</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-cogs"></i>
-                                <span>{{ car.transmission }}</span>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ car.city }}</span>
                             </div>
                             <div class="feature">
                                 <i class="fas fa-users"></i>
                                 <span>{{ car.capacity }} نفر</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-user-tie"></i>
+                                <span>{% if car.with_driver %}با راننده{% else %}بدون راننده{% endif %}</span>
                             </div>
                         </div>
                         <div class="offer-footer">
